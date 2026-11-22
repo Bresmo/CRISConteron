@@ -3,3 +3,12 @@ Thumbs.db
 node_modules/
 .env
 *.log
+# ============================================================================
+# EXCLUSIONES DE CONTROL DE VERSIONES (GIT)
+# ============================================================================
+node_modules/
+.env
+.DS_Store
+
+# Credenciales y configuraciones locales sensibles
+js/config.js
