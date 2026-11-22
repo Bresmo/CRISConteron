@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Servicios · Admin Maison Aurum</title>
+    
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="admin-body">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-brand">MAISON <span>AURUM</span></div>
+        <nav class="admin-nav">
+            <a href="dashboard.html" class="admin-nav-item"><i class="ph ph-squares-four"></i> Dashboard</a>
+            <a href="servicios.html" class="admin-nav-item active"><i class="ph ph-scissors"></i> Servicios</a>
+            <a href="equipo.html" class="admin-nav-item"><i class="ph ph-users"></i> Equipo</a>
+            <a href="citas.html" class="admin-nav-item"><i class="ph ph-calendar-check"></i> Citas</a>
+            <a href="contabilidad.html" class="admin-nav-item"><i class="ph ph-chart-line-up"></i> Contabilidad</a>
+            <a href="clientes.html" class="admin-nav-item"><i class="ph ph-address-book"></i> Clientes</a>
+            <a href="configuracion.html" class="admin-nav-item"><i class="ph ph-gear"></i> Configuración</a>
+        </nav>
+        <div class="admin-sidebar-footer">
+            <button id="btn-logout" class="btn-outline" style="width: 100%; font-size: 0.8rem; padding: 0.6rem;"><i class="ph ph-sign-out"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <header class="admin-header">
+            <div class="admin-header-title">
+                <h1>Catálogo de Servicios y Categorías</h1>
+            </div>
+            <div class="admin-user-info">
+                <span id="admin-user-name">Cargando...</span>
+            </div>
+        </header>
+
+        <div class="admin-content">
+            
+            <!-- Gestión de Categorías -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Categorías de Servicios</h3>
+                    <button class="btn-gold" id="btn-nueva-categoria" style="padding: 0.5rem 1rem; font-size: 0.75rem;"><i class="ph ph-plus"></i> Nueva Categoría</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Orden</th>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                                <th style="text-align: right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categorias-tbody">
+                            <!-- JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Gestión de Servicios -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Servicios Ofrecidos</h3>
+                    <button class="btn-gold" id="btn-nuevo-servicio" style="padding: 0.5rem 1rem; font-size: 0.75rem;"><i class="ph ph-plus"></i> Nuevo Servicio</button>
+                </div>
+                <div class="admin-filters">
+                    <input type="text" id="search-servicios" class="admin-search-input" placeholder="Buscar servicio por nombre...">
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Duración</th>
+                                <th>Precio</th>
+                                <th>Estado</th>
+                                <th style="text-align: right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="servicios-tbody">
+                            <!-- JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal Servicio -->
+    <div id="modal-servicio" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-servicio-titulo">Nuevo Servicio</h3>
+                <button class="modal-close" onclick="window.cerrarModalServicio()">&times;</button>
+            </div>
+            <form id="form-servicio">
+                <input type="hidden" id="srv-id">
+                <div class="form-group">
+                    <label>Categoría *</label>
+                    <select id="srv-categoria" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Nombre del Servicio *</label>
+                    <input type="text" id="srv-nombre" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="srv-descripcion" class="form-control" rows="3"></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Precio ($) *</label>
+                        <input type="number" step="0.01" id="srv-precio" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Duración (minutos) *</label>
+                        <input type="number" id="srv-duracion" class="form-control" required>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Orden</label>
+                        <input type="number" id="srv-orden" class="form-control" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select id="srv-activo" class="form-control">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Imagen del Servicio</label>
+                    <input type="file" id="srv-imagen-file" class="form-control" accept="image/*">
+                    <input type="hidden" id="srv-imagen-url">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn-outline" onclick="window.cerrarModalServicio()">Cancelar</button>
+                    <button type="submit" class="btn-gold">Guardar Servicio</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Categoría -->
+    <div id="modal-categoria" class="modal-overlay">
+        <div class="modal-container" style="max-width: 450px;">
+            <div class="modal-header">
+                <h3 id="modal-cat-titulo">Nueva Categoría</h3>
+                <button class="modal-close" onclick="window.cerrarModalCategoria()">&times;</button>
+            </div>
+            <form id="form-categoria">
+                <input type="hidden" id="cat-id">
+                <div class="form-group">
+                    <label>Nombre de Categoría *</label>
+                    <input type="text" id="cat-nombre" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Orden</label>
+                    <input type="number" id="cat-orden" class="form-control" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select id="cat-activa" class="form-control">
+                        <option value="true">Activa</option>
+                        <option value="false">Inactiva</option>
+                    </select>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn-outline" onclick="window.cerrarModalCategoria()">Cancelar</button>
+                    <button type="submit" class="btn-gold">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { checkAdminAuth } from '../js/auth.js';
+        import { supabase } from '../js/supabaseClient.js';
+
+        let categoriasCache = [];
+        let serviciosCache = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await checkAdminAuth();
+            if (!user) return;
+
+            await cargarDatos();
+
+            // Eventos Modales
+            document.getElementById('btn-nuevo-servicio').onclick = () => abrirModalServicio();
+            document.getElementById('btn-nueva-categoria').onclick = () => abrirModalCategoria();
+
+            // Búsqueda
+            document.getElementById('search-servicios').oninput = (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtrados = serviciosCache.filter(s => s.nombre.toLowerCase().includes(term));
+                renderServicios(filtrados);
+            };
+
+            // Submit Servicio
+            document.getElementById('form-servicio').onsubmit = async (e) => {
+                e.preventDefault();
+                const id = document.getElementById('srv-id').value;
+                const categoria_id = document.getElementById('srv-categoria').value;
+                const nombre = document.getElementById('srv-nombre').value;
+                const descripcion = document.getElementById('srv-descripcion').value;
+                const precio = parseFloat(document.getElementById('srv-precio').value);
+                const duracion_min = parseInt(document.getElementById('srv-duracion').value);
+                const orden = parseInt(document.getElementById('srv-orden').value || 0);
+                const activo = document.getElementById('srv-activo').value === 'true';
+                let imagen_url = document.getElementById('srv-imagen-url').value;
+
+                const fileInput = document.getElementById('srv-imagen-file');
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Date.now()}.${fileExt}`;
+                    const { data: uploadData, error: uploadErr } = await supabase.storage.from('salon-media').upload(`servicios/${fileName}`, file);
+                    if (!uploadErr) {
+                        const { data: pubData } = supabase.storage.from('salon-media').getPublicUrl(`servicios/${fileName}`);
+                        imagen_url = pubData.publicUrl;
+                    }
+                }
+
+                const payload = { categoria_id, nombre, descripcion, precio, duracion_min, orden, activo, imagen_url: imagen_url || null };
+
+                if (id) {
+                    const { error } = await supabase.from('servicios').update(payload).eq('id', id);
+                    if (error) alert('Error al actualizar: ' + error.message);
+                } else {
+                    const { error } = await supabase.from('servicios').insert([payload]);
+                    if (error) alert('Error al crear: ' + error.message);
+                }
+
+                window.cerrarModalServicio();
+                await cargarDatos();
+            };
+
+            // Submit Categoría
+            document.getElementById('form-categoria').onsubmit = async (e) => {
+                e.preventDefault();
+                const id = document.getElementById('cat-id').value;
+                const nombre = document.getElementById('cat-nombre').value;
+                const orden = parseInt(document.getElementById('cat-orden').value || 0);
+                const activa = document.getElementById('cat-activa').value === 'true';
+
+                const payload = { nombre, orden, activa };
+
+                if (id) {
+                    const { error } = await supabase.from('categorias').update(payload).eq('id', id);
+                    if (error) alert('Error: ' + error.message);
+                } else {
+                    const { error } = await supabase.from('categorias').insert([payload]);
+                    if (error) alert('Error: ' + error.message);
+                }
+
+                window.cerrarModalCategoria();
+                await cargarDatos();
+            };
+        });
+
+        async function cargarDatos() {
+            const [catRes, srvRes] = await Promise.all([
+                supabase.from('categorias').select('*').order('orden'),
+                supabase.from('servicios').select('*, categorias(nombre)').order('orden')
+            ]);
+
+            categoriasCache = catRes.data || [];
+            serviciosCache = srvRes.data || [];
+
+            renderCategorias(categoriasCache);
+            renderServicios(serviciosCache);
+            llenarSelectCategorias();
+        }
+
+        function renderCategorias(categorias) {
+            const tbody = document.getElementById('categorias-tbody');
+            tbody.innerHTML = categorias.map(c => `
+                <tr>
+                    <td>${c.orden}</td>
+                    <td><strong>${c.nombre}</strong></td>
+                    <td><span class="badge ${c.activa ? 'badge-success' : 'badge-danger'}">${c.activa ? 'Activa' : 'Inactiva'}</span></td>
+                    <td style="text-align: right;">
+                        <button class="btn-outline" style="padding: 0.3rem 0.75rem; font-size: 0.75rem;" onclick="window.editarCategoria('${c.id}')">Editar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderServicios(servicios) {
+            const tbody = document.getElementById('servicios-tbody');
+            tbody.innerHTML = servicios.map(s => `
+                <tr>
+                    <td><img src="${s.imagen_url || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=100&q=80'}" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;"></td>
+                    <td><strong>${s.nombre}</strong></td>
+                    <td>${s.categorias?.nombre || '-'}</td>
+                    <td>${s.duracion_min} min</td>
+                    <td>$${Number(s.precio).toFixed(2)}</td>
+                    <td><span class="badge ${s.activo ? 'badge-success' : 'badge-danger'}">${s.activo ? 'Activo' : 'Inactivo'}</span></td>
+                    <td style="text-align: right;">
+                        <button class="btn-outline" style="padding: 0.3rem 0.75rem; font-size: 0.75rem;" onclick="window.editarServicio('${s.id}')">Editar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function llenarSelectCategorias() {
+            const select = document.getElementById('srv-categoria');
+            select.innerHTML = categoriasCache.map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
+        }
+
+        window.abrirModalServicio = (id = null) => {
+            document.getElementById('form-servicio').reset();
+            document.getElementById('srv-id').value = '';
+            document.getElementById('modal-servicio-titulo').textContent = 'Nuevo Servicio';
+            if (id) {
+                const s = serviciosCache.find(x => x.id === id);
+                if (s) {
+                    document.getElementById('srv-id').value = s.id;
+                    document.getElementById('srv-categoria').value = s.categoria_id;
+                    document.getElementById('srv-nombre').value = s.nombre;
+                    document.getElementById('srv-descripcion').value = s.descripcion || '';
+                    document.getElementById('srv-precio').value = s.precio;
+                    document.getElementById('srv-duracion').value = s.duracion_min;
+                    document.getElementById('srv-orden').value = s.orden;
+                    document.getElementById('srv-activo').value = s.activo ? 'true' : 'false';
+                    document.getElementById('srv-imagen-url').value = s.imagen_url || '';
+                    document.getElementById('modal-servicio-titulo').textContent = 'Editar Servicio';
+                }
+            }
+            document.getElementById('modal-servicio').classList.add('active');
+        };
+
+        window.cerrarModalServicio = () => document.getElementById('modal-servicio').classList.remove('active');
+        window.editarServicio = (id) => window.abrirModalServicio(id);
+
+        window.abrirModalCategoria = (id = null) => {
+            document.getElementById('form-categoria').reset();
+            document.getElementById('cat-id').value = '';
+            document.getElementById('modal-cat-titulo').textContent = 'Nueva Categoría';
+            if (id) {
+                const c = categoriasCache.find(x => x.id === id);
+                if (c) {
+                    document.getElementById('cat-id').value = c.id;
+                    document.getElementById('cat-nombre').value = c.nombre;
+                    document.getElementById('cat-orden').value = c.orden;
+                    document.getElementById('cat-activa').value = c.activa ? 'true' : 'false';
+                    document.getElementById('modal-cat-titulo').textContent = 'Editar Categoría';
+                }
+            }
+            document.getElementById('modal-categoria').classList.add('active');
+        };
+
+        window.cerrarModalCategoria = () => document.getElementById('modal-categoria').classList.remove('active');
+        window.editarCategoria = (id) => window.abrirModalCategoria(id);
+    </script>
+</body>
+</html>
