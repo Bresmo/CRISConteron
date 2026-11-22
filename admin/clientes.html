@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Clientes · Admin Maison Aurum</title>
+    
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="admin-body">
+
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-brand">MAISON <span>AURUM</span></div>
+        <nav class="admin-nav">
+            <a href="dashboard.html" class="admin-nav-item"><i class="ph ph-squares-four"></i> Dashboard</a>
+            <a href="servicios.html" class="admin-nav-item"><i class="ph ph-scissors"></i> Servicios</a>
+            <a href="equipo.html" class="admin-nav-item"><i class="ph ph-users"></i> Equipo</a>
+            <a href="citas.html" class="admin-nav-item"><i class="ph ph-calendar-check"></i> Citas</a>
+            <a href="contabilidad.html" class="admin-nav-item"><i class="ph ph-chart-line-up"></i> Contabilidad</a>
+            <a href="clientes.html" class="admin-nav-item active"><i class="ph ph-address-book"></i> Clientes</a>
+            <a href="configuracion.html" class="admin-nav-item"><i class="ph ph-gear"></i> Configuración</a>
+        </nav>
+        <div class="admin-sidebar-footer">
+            <button id="btn-logout" class="btn-outline" style="width: 100%; font-size: 0.8rem; padding: 0.6rem;"><i class="ph ph-sign-out"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <div class="admin-header-title"><h1>Directorio de Clientes</h1></div>
+            <div class="admin-user-info"><span id="admin-user-name">Cargando...</span></div>
+        </header>
+
+        <div class="admin-content">
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Historial y Gasto Acumulado</h3>
+                    <input type="text" id="search-clientes" class="admin-search-input" placeholder="Buscar por nombre, teléfono o email...">
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Teléfono</th>
+                                <th>Email</th>
+                                <th>Notas</th>
+                                <th style="text-align: right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientes-tbody">
+                            <!-- JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Historial Cliente -->
+    <div id="modal-cliente" class="modal-overlay">
+        <div class="modal-container" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3 id="cli-modal-nombre">Historial del Cliente</h3>
+                <button class="modal-close" onclick="window.cerrarModalCliente()">&times;</button>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <p id="cli-modal-info" style="color: var(--color-text-secondary); font-size: 0.9rem;"></p>
+            </div>
+            <h4 style="margin-bottom: 1rem; font-size: 1rem; color: var(--color-accent);">Citas Realizadas</h4>
+            <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                <table class="admin-table">
+                    <thead><tr><th>Fecha</th><th>Servicio</th><th>Especialista</th><th>Estado</th><th>Total</th></tr></thead>
+                    <tbody id="cli-citas-tbody"></tbody>
+                </table>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+                <button type="button" class="btn-outline" onclick="window.cerrarModalCliente()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { checkAdminAuth } from '../js/auth.js';
+        import { supabase } from '../js/supabaseClient.js';
+
+        let clientesCache = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await checkAdminAuth();
+            if (!user) return;
+
+            await cargarClientes();
+
+            document.getElementById('search-clientes').oninput = (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtrados = clientesCache.filter(c => c.nombre.toLowerCase().includes(term) || c.telefono.includes(term) || (c.email && c.email.toLowerCase().includes(term)));
+                renderClientes(filtrados);
+            };
+        });
+
+        async function cargarClientes() {
+            const { data, error } = await supabase.from('clientes').select('*').order('nombre');
+            if (error) { console.error(error); return; }
+            clientesCache = data || [];
+            renderClientes(clientesCache);
+        }
+
+        function renderClientes(clientes) {
+            const tbody = document.getElementById('clientes-tbody');
+            if (clientes.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--color-text-secondary);">No hay clientes registrados.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = clientes.map(c => `
+                <tr>
+                    <td><strong>${c.nombre}</strong></td>
+                    <td>${c.telefono}</td>
+                    <td>${c.email || '-'}</td>
+                    <td>${c.notas || '-'}</td>
+                    <td style="text-align: right;">
+                        <button class="btn-outline" style="padding: 0.3rem 0.75rem; font-size: 0.75rem;" onclick="window.verHistorialCliente('${c.id}')">Historial</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        window.verHistorialCliente = async (id) => {
+            const cliente = clientesCache.find(c => c.id === id);
+            if (!cliente) return;
+
+            document.getElementById('cli-modal-nombre').textContent = cliente.nombre;
+            document.getElementById('cli-modal-info').innerHTML = `Teléfono: <strong>${cliente.telefono}</strong> | Email: <strong>${cliente.email || 'No registrado'}</strong><br>Notas: ${cliente.notas || 'Sin notas'}`;
+
+            const { data: citas } = await supabase.from('citas').select('*, servicios(nombre), peluqueros(nombre)').eq('cliente_id', id).order('fecha', { ascending: false });
+
+            const tbody = document.getElementById('cli-citas-tbody');
+            if (!citas || citas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--color-text-secondary);">Este cliente no registra citas previas.</td></tr>`;
+            } else {
+                tbody.innerHTML = citas.map(ci => `
+                    <tr>
+                        <td>${ci.fecha} ${ci.hora_inicio.slice(0,5)}</td>
+                        <td>${ci.servicios?.nombre || '-'}</td>
+                        <td>${ci.peluqueros?.nombre || '-'}</td>
+                        <td><span class="badge ${ci.estado === 'completada' ? 'badge-success' : 'badge-warning'}">${ci.estado}</span></td>
+                        <td>$${Number(ci.precio_cobrado || 0).toFixed(2)}</td>
+                    </tr>
+                `).join('');
+            }
+
+            document.getElementById('modal-cliente').classList.add('active');
+        };
+
+        window.cerrarModalCliente = () => document.getElementById('modal-cliente').classList.remove('active');
+    </script>
+</body>
+</html>

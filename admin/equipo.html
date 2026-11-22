@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Equipo · Admin Maison Aurum</title>
+    
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="admin-body">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-brand">MAISON <span>AURUM</span></div>
+        <nav class="admin-nav">
+            <a href="dashboard.html" class="admin-nav-item"><i class="ph ph-squares-four"></i> Dashboard</a>
+            <a href="servicios.html" class="admin-nav-item"><i class="ph ph-scissors"></i> Servicios</a>
+            <a href="equipo.html" class="admin-nav-item active"><i class="ph ph-users"></i> Equipo</a>
+            <a href="citas.html" class="admin-nav-item"><i class="ph ph-calendar-check"></i> Citas</a>
+            <a href="contabilidad.html" class="admin-nav-item"><i class="ph ph-chart-line-up"></i> Contabilidad</a>
+            <a href="clientes.html" class="admin-nav-item"><i class="ph ph-address-book"></i> Clientes</a>
+            <a href="configuracion.html" class="admin-nav-item"><i class="ph ph-gear"></i> Configuración</a>
+        </nav>
+        <div class="admin-sidebar-footer">
+            <button id="btn-logout" class="btn-outline" style="width: 100%; font-size: 0.8rem; padding: 0.6rem;"><i class="ph ph-sign-out"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <header class="admin-header">
+            <div class="admin-header-title">
+                <h1>Equipo de Estilistas y Rendimiento</h1>
+            </div>
+            <div class="admin-user-info">
+                <span id="admin-user-name">Cargando...</span>
+            </div>
+        </header>
+
+        <div class="admin-content">
+            
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Nómina de Especialistas</h3>
+                    <button class="btn-gold" id="btn-nuevo-peluquero" style="padding: 0.5rem 1rem; font-size: 0.75rem;"><i class="ph ph-plus"></i> Nuevo Especialista</button>
+                </div>
+                <div class="admin-filters">
+                    <input type="text" id="search-peluqueros" class="admin-search-input" placeholder="Buscar por nombre o especialidad...">
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nombre</th>
+                                <th>Especialidad</th>
+                                <th>Teléfono</th>
+                                <th>Comisión %</th>
+                                <th>Estado</th>
+                                <th style="text-align: right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="peluqueros-tbody">
+                            <!-- JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reporte de Rendimiento por Peluquero -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Rendimiento y Facturación por Especialista</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Especialista</th>
+                                <th>Comisión %</th>
+                                <th>Servicios Realizados</th>
+                                <th>Total Facturado</th>
+                                <th>Comisión Generada</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rendimiento-tbody">
+                            <!-- JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal Peluquero -->
+    <div id="modal-peluquero" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-peluquero-titulo">Nuevo Especialista</h3>
+                <button class="modal-close" onclick="window.cerrarModalPeluquero()">&times;</button>
+            </div>
+            <form id="form-peluquero">
+                <input type="hidden" id="pel-id">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Nombre y Apellido *</label>
+                        <input type="text" id="pel-nombre" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Especialidad</label>
+                        <input type="text" id="pel-especialidad" class="form-control" placeholder="Ej. Master Colorista">
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" id="pel-telefono" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Comisión (%) *</label>
+                        <input type="number" step="0.1" id="pel-comision" class="form-control" value="40.0" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Biografía corta</label>
+                    <textarea id="pel-bio" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select id="pel-activo" class="form-control">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Foto de Perfil</label>
+                    <input type="file" id="pel-foto-file" class="form-control" accept="image/*">
+                    <input type="hidden" id="pel-foto-url">
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label style="margin-bottom: 0.75rem; color: var(--color-accent);">Servicios que realiza:</label>
+                    <div id="pel-servicios-checkboxes" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; max-height: 150px; overflow-y: auto; background: var(--color-bg-card); padding: 1rem; border-radius: var(--radius-sm);">
+                        <!-- JS -->
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn-outline" onclick="window.cerrarModalPeluquero()">Cancelar</button>
+                    <button type="submit" class="btn-gold">Guardar Especialista</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { checkAdminAuth } from '../js/auth.js';
+        import { supabase } from '../js/supabaseClient.js';
+
+        let peluquerosCache = [];
+        let serviciosCache = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await checkAdminAuth();
+            if (!user) return;
+
+            await cargarDatos();
+
+            document.getElementById('btn-nuevo-peluquero').onclick = () => abrirModalPeluquero();
+
+            document.getElementById('search-peluqueros').oninput = (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtrados = peluquerosCache.filter(p => p.nombre.toLowerCase().includes(term) || (p.especialidad && p.especialidad.toLowerCase().includes(term)));
+                renderPeluqueros(filtrados);
+            };
+
+            document.getElementById('form-peluquero').onsubmit = async (e) => {
+                e.preventDefault();
+                const id = document.getElementById('pel-id').value;
+                const nombre = document.getElementById('pel-nombre').value;
+                const especialidad = document.getElementById('pel-especialidad').value;
+                const telefono = document.getElementById('pel-telefono').value;
+                const comision_pct = parseFloat(document.getElementById('pel-comision').value);
+                const bio = document.getElementById('pel-bio').value;
+                const activo = document.getElementById('pel-activo').value === 'true';
+                let foto_url = document.getElementById('pel-foto-url').value;
+
+                const fileInput = document.getElementById('pel-foto-file');
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Date.now()}.${fileExt}`;
+                    const { data: uploadData, error: uploadErr } = await supabase.storage.from('salon-media').upload(`equipo/${fileName}`, file);
+                    if (!uploadErr) {
+                        const { data: pubData } = supabase.storage.from('salon-media').getPublicUrl(`equipo/${fileName}`);
+                        foto_url = pubData.publicUrl;
+                    }
+                }
+
+                const payload = { nombre, especialidad, telefono, comision_pct, bio, activo, foto_url: foto_url || null };
+                let peluqueroId = id;
+
+                if (id) {
+                    const { error } = await supabase.from('peluqueros').update(payload).eq('id', id);
+                    if (error) { alert('Error: ' + error.message); return; }
+                } else {
+                    const { data: insData, error } = await supabase.from('peluqueros').insert([payload]).select().single();
+                    if (error) { alert('Error: ' + error.message); return; }
+                    peluqueroId = insData.id;
+
+                    // Crear horarios por defecto de Lunes a Sábado
+                    const horariosDefaults = [1,2,3,4,5,6].map(dia => ({
+                        peluquero_id: peluqueroId,
+                        dia_semana: dia,
+                        hora_inicio: '09:00',
+                        hora_fin: '20:00'
+                    }));
+                    await supabase.from('horarios_peluquero').insert(horariosDefaults);
+                }
+
+                // Sincronizar servicios que realiza
+                const checkboxes = document.querySelectorAll('.srv-chk:checked');
+                const serviciosSeleccionados = Array.from(checkboxes).map(chk => ({
+                    peluquero_id: peluqueroId,
+                    servicio_id: chk.value
+                }));
+
+                await supabase.from('peluquero_servicios').delete().eq('peluquero_id', peluqueroId);
+                if (serviciosSeleccionados.length > 0) {
+                    await supabase.from('peluquero_servicios').insert(serviciosSeleccionados);
+                }
+
+                window.cerrarModalPeluquero();
+                await cargarDatos();
+            };
+        });
+
+        async function cargarDatos() {
+            const [pelRes, srvRes, rendRes] = await Promise.all([
+                supabase.from('peluqueros').select('*').order('nombre'),
+                supabase.from('servicios').select('*').eq('activo', true),
+                supabase.rpc('reporte_ingresos_peluquero')
+            ]);
+
+            peluquerosCache = pelRes.data || [];
+            serviciosCache = srvRes.data || [];
+
+            renderPeluqueros(peluquerosCache);
+            renderRendimiento(rendRes.data || []);
+            renderCheckboxesServicios([]);
+        }
+
+        function renderPeluqueros(peluqueros) {
+            const tbody = document.getElementById('peluqueros-tbody');
+            tbody.innerHTML = peluqueros.map(p => `
+                <tr>
+                    <td><img src="${p.foto_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;"></td>
+                    <td><strong>${p.nombre}</strong></td>
+                    <td>${p.especialidad || '-'}</td>
+                    <td>${p.telefono || '-'}</td>
+                    <td>${p.comision_pct}%</td>
+                    <td><span class="badge ${p.activo ? 'badge-success' : 'badge-danger'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
+                    <td style="text-align: right;">
+                        <button class="btn-outline" style="padding: 0.3rem 0.75rem; font-size: 0.75rem;" onclick="window.editarPeluquero('${p.id}')">Editar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderRendimiento(data) {
+            const tbody = document.getElementById('rendimiento-tbody');
+            tbody.innerHTML = data.map(r => `
+                <tr>
+                    <td><strong>${r.peluquero_nombre}</strong></td>
+                    <td>${r.comision_pct}%</td>
+                    <td>${r.servicios_realizados}</td>
+                    <td>$${Number(r.total_facturado).toFixed(2)}</td>
+                    <td style="color: var(--color-accent); font-weight: 600;">$${Number(r.comision_generada).toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderCheckboxesServicios(asociadosIds = []) {
+            const container = document.getElementById('pel-servicios-checkboxes');
+            container.innerHTML = serviciosCache.map(s => `
+                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                    <input type="checkbox" class="srv-chk" value="${s.id}" ${asociadosIds.includes(s.id) ? 'checked' : ''}>
+                    ${s.nombre}
+                </label>
+            `).join('');
+        }
+
+        window.abrirModalPeluquero = async (id = null) => {
+            document.getElementById('form-peluquero').reset();
+            document.getElementById('pel-id').value = '';
+            document.getElementById('modal-peluquero-titulo').textContent = 'Nuevo Especialista';
+            
+            let asociados = [];
+            if (id) {
+                const p = peluquerosCache.find(x => x.id === id);
+                if (p) {
+                    document.getElementById('pel-id').value = p.id;
+                    document.getElementById('pel-nombre').value = p.nombre;
+                    document.getElementById('pel-especialidad').value = p.especialidad || '';
+                    document.getElementById('pel-telefono').value = p.telefono || '';
+                    document.getElementById('pel-comision').value = p.comision_pct;
+                    document.getElementById('pel-bio').value = p.bio || '';
+                    document.getElementById('pel-activo').value = p.activo ? 'true' : 'false';
+                    document.getElementById('pel-foto-url').value = p.foto_url || '';
+                    document.getElementById('modal-peluquero-titulo').textContent = 'Editar Especialista';
+
+                    const { data: rels } = await supabase.from('peluquero_servicios').select('servicio_id').eq('peluquero_id', id);
+                    asociados = rels ? rels.map(r => r.servicio_id) : [];
+                }
+            }
+            renderCheckboxesServicios(asociados);
+            document.getElementById('modal-peluquero').classList.add('active');
+        };
+
+        window.cerrarModalPeluquero = () => document.getElementById('modal-peluquero').classList.remove('active');
+        window.editarPeluquero = (id) => window.abrirModalPeluquero(id);
+    </script>
+</body>
+</html>
