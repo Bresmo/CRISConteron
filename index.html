@@ -39,7 +39,7 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content reveal">
+        <div class="hero-content reveal active">
             <span class="hero-subtitle">Haute Coiffure & Ritual Capilar</span>
             <h1>El Arte de la Belleza Exclusiva</h1>
             <p>Un espacio íntimo donde la precisión técnica, la colorimetría de autor y los tratamientos botánicos de lujo convergen para realzar tu identidad.</p>
@@ -53,7 +53,7 @@
     <!-- Servicios Section -->
     <section id="servicios">
         <div class="container">
-            <div class="section-header reveal">
+            <div class="section-header reveal active">
                 <span>Catálogo Exclusivo</span>
                 <h2>Nuestros Servicios</h2>
                 <p>Selecciona una categoría para descubrir nuestros rituales diseñados a medida.</p>
@@ -70,7 +70,7 @@
     <!-- Equipo Section -->
     <section id="equipo" style="background: var(--color-bg-secondary);">
         <div class="container">
-            <div class="section-header reveal">
+            <div class="section-header reveal active">
                 <span>Maestros Artesanos</span>
                 <h2>Nuestro Equipo</h2>
                 <p>Estilistas y coloristas de trayectoria internacional consagrados al detalle.</p>
@@ -84,12 +84,12 @@
     <!-- Galería Section -->
     <section id="galeria">
         <div class="container">
-            <div class="section-header reveal">
+            <div class="section-header reveal active">
                 <span>Atmósfera Maison</span>
                 <h2>Galería & Trabajos</h2>
                 <p>Una mirada al interior de nuestro santuario de belleza y las creaciones de nuestros estilistas.</p>
             </div>
-            <div class="gallery-grid reveal">
+            <div class="gallery-grid reveal active">
                 <div class="gallery-item"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=800&q=80" alt="Salón interior" loading="lazy"></div>
                 <div class="gallery-item"><img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=800&q=80" alt="Corte y brushing" loading="lazy"></div>
                 <div class="gallery-item"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=800&q=80" alt="Balayage" loading="lazy"></div>
@@ -101,11 +101,11 @@
     <!-- Testimonios Section -->
     <section style="background: var(--color-bg-secondary);">
         <div class="container">
-            <div class="section-header reveal">
+            <div class="section-header reveal active">
                 <span>Experiencias</span>
                 <h2>Lo que dicen nuestros clientes</h2>
             </div>
-            <div class="testimonials-grid reveal">
+            <div class="testimonials-grid reveal active">
                 <div class="testimonial-card">
                     <div class="testimonial-stars"><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i><i class="ph ph-star-fill"></i></div>
                     <p class="testimonial-text">"La atención al detalle de Valeria y el ambiente de Maison Aurum superaron todas mis expectativas. El balayage quedó perfecto."</p>
@@ -128,12 +128,12 @@
     <!-- Ubicación y Contacto -->
     <section id="contacto">
         <div class="container">
-            <div class="section-header reveal">
+            <div class="section-header reveal active">
                 <span>Visítanos</span>
                 <h2>Ubicación & Contacto</h2>
             </div>
             <div class="contact-grid">
-                <div class="reveal">
+                <div class="reveal active">
                     <h3 style="font-size: 1.75rem; margin-bottom: 1rem;">Maison Aurum Quito</h3>
                     <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">Te invitamos a disfrutar de una copa de espumante o café de especialidad mientras transformamos tu imagen.</p>
                     <div class="contact-info-list">
@@ -151,8 +151,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="map-container reveal">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.794697071661!2d-78.4832!3d-0.1823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDEwJzU2LjMiUyA3OMKwMjgnNTkuNSBX!5e0!3m2!1ses!2sec!4v1650000000000!5m2!1ses!2sec" allowfullscreen="" loading="lazy"></iframe>
+                <div class="map-container reveal active">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.794697071661!2d-78.4832!3d-0.1823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sMTPCsDEwJzU2LjMiUyA3OMKwMjgnNTkuNSBX!5e0!3m2!1ses!2sec!4v1650000000000!5m2!1ses!2sec" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
@@ -182,17 +182,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             initServicios();
             initEquipo();
-
-            // IntersectionObserver para animaciones reveal
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
     </script>
 </body>
