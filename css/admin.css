@@ -306,3 +306,195 @@ body.admin-body {
     display: inline-block;
     animation: spin 1s linear infinite;
 }
+
+/* Formularios y campos del panel administrativo */
+.admin-body .admin-card,
+.admin-body .modal-container,
+.admin-body .login-card {
+    background: linear-gradient(145deg, rgba(28, 28, 28, 0.98), rgba(20, 20, 20, 0.98));
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+}
+
+.admin-body .form-group,
+.admin-body .admin-field,
+.admin-body .hd-fila {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.admin-body .form-group label,
+.admin-body .hd-fila > label {
+    display: block;
+    margin-bottom: 0.55rem;
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.065em;
+    text-transform: uppercase;
+}
+
+.admin-body .form-control,
+.admin-body .admin-search-input {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 0.72rem 0.85rem;
+    background: #181818;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    font-size: 0.92rem;
+    line-height: 1.4;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.admin-body textarea.form-control {
+    min-height: 92px;
+    resize: vertical;
+}
+
+.admin-body select.form-control {
+    cursor: pointer;
+}
+
+.admin-body .form-control::placeholder,
+.admin-body .admin-search-input::placeholder {
+    color: #85858b;
+    opacity: 1;
+}
+
+.admin-body .form-control:hover,
+.admin-body .admin-search-input:hover {
+    border-color: rgba(212, 175, 55, 0.38);
+}
+
+.admin-body .form-control:focus,
+.admin-body .admin-search-input:focus {
+    background: #1b1b1b;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-glow);
+}
+
+.admin-body .form-control:disabled,
+.admin-body .admin-search-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.admin-body .admin-search-input {
+    max-width: 420px;
+    min-height: 44px;
+}
+
+.admin-body .admin-filters {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.018);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: 0.85rem;
+}
+
+.admin-body .hd-fila {
+    margin-bottom: 0.6rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.admin-body .hd-fila > label {
+    margin-bottom: 0;
+    text-transform: none;
+}
+
+.admin-body .hd-tramo {
+    background: #181818;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 0.55rem;
+}
+
+.admin-body .hd-ini,
+.admin-body .hd-fin {
+    min-height: 38px;
+    padding: 0.45rem 0.6rem;
+    background: #202020;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: var(--radius-sm);
+}
+
+.admin-body #config-lista {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.admin-body #config-lista .form-group {
+    margin: 0;
+}
+
+.admin-body input[type="checkbox"] {
+    accent-color: var(--color-accent);
+}
+
+.login-card .form-group {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.login-card .form-group label {
+    display: block;
+    margin-bottom: 0.55rem;
+    color: var(--color-text-primary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.065em;
+    text-transform: uppercase;
+}
+
+.login-card .form-control {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 0.72rem 0.85rem;
+    background: #181818;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.login-card .form-control:focus {
+    background: #1b1b1b;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-glow);
+}
+
+@media (max-width: 700px) {
+    .admin-body .modal-container {
+        padding: 1.25rem;
+    }
+
+    .admin-body .form-group,
+    .admin-body .hd-fila {
+        padding: 0.85rem;
+    }
+
+    .admin-body .admin-filters {
+        align-items: stretch;
+    }
+
+    .admin-body .admin-search-input,
+    .admin-body .admin-filters .form-control {
+        max-width: none;
+        width: 100%;
+    }
+
+    .admin-body .hd-fila {
+        flex-wrap: wrap;
+    }
+}
