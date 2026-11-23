@@ -3,264 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contabilidad y Finanzas · Admin Maison Aurum</title>
-    
+    <title>Contabilidad · Admin Maison Aurum</title>
+
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/admin.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body class="admin-body">
 
-    <aside class="admin-sidebar">
-        <div class="admin-sidebar-brand">MAISON <span>AURUM</span></div>
-        <nav class="admin-nav">
-            <a href="dashboard.html" class="admin-nav-item"><i class="ph ph-squares-four"></i> Dashboard</a>
-            <a href="servicios.html" class="admin-nav-item"><i class="ph ph-scissors"></i> Servicios</a>
-            <a href="equipo.html" class="admin-nav-item"><i class="ph ph-users"></i> Equipo</a>
-            <a href="citas.html" class="admin-nav-item"><i class="ph ph-calendar-check"></i> Citas</a>
-            <a href="contabilidad.html" class="admin-nav-item active"><i class="ph ph-chart-line-up"></i> Contabilidad</a>
-            <a href="clientes.html" class="admin-nav-item"><i class="ph ph-address-book"></i> Clientes</a>
-            <a href="configuracion.html" class="admin-nav-item"><i class="ph ph-gear"></i> Configuración</a>
-        </nav>
-        <div class="admin-sidebar-footer">
-            <button id="btn-logout" class="btn-outline" style="width: 100%; font-size: 0.8rem; padding: 0.6rem;"><i class="ph ph-sign-out"></i> Cerrar Sesión</button>
-        </div>
-    </aside>
+    <!-- Sidebar dinámico inyectado por renderSidebar('contabilidad') -->
+    <aside class="admin-sidebar"></aside>
 
     <main class="admin-main">
         <header class="admin-header">
-            <div class="admin-header-title"><h1>Contabilidad y Cierre de Caja</h1></div>
-            <div class="admin-user-info"><span id="admin-user-name">Cargando...</span></div>
+            <div class="admin-header-title">
+                <h1>Contabilidad</h1>
+            </div>
+            <div class="admin-user-info">
+                <span id="admin-user-name">Cargando...</span>
+            </div>
         </header>
 
         <div class="admin-content">
-            <!-- Filtros y Acciones -->
-            <div class="admin-card" style="padding: 1.5rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                    <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                        <div>
-                            <label style="font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-secondary); display: block; margin-bottom: 0.25rem;">Agrupación</label>
-                            <select id="filtro-agrupacion" class="form-control" style="width: auto;">
-                                <option value="day">Por Días</option>
-                                <option value="month">Por Meses</option>
-                                <option value="year">Por Años</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-secondary); display: block; margin-bottom: 0.25rem;">Desde</label>
-                            <input type="date" id="filtro-inicio" class="form-control" style="width: auto;">
-                        </div>
-                        <div>
-                            <label style="font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-secondary); display: block; margin-bottom: 0.25rem;">Hasta</label>
-                            <input type="date" id="filtro-fin" class="form-control" style="width: auto;">
-                        </div>
-                        <button class="btn-gold" id="btn-filtrar" style="margin-top: 1.25rem; padding: 0.6rem 1.25rem; font-size: 0.8rem;">Aplicar Filtros</button>
-                    </div>
-                    <div style="display: flex; gap: 1rem; margin-top: 1.25rem;">
-                        <button class="btn-outline" onclick="window.abrirModalGasto()" style="padding: 0.6rem 1rem; font-size: 0.8rem;"><i class="ph ph-minus-circle"></i> Registrar Gasto</button>
-                        <button class="btn-outline" onclick="window.exportarCSV()" style="padding: 0.6rem 1rem; font-size: 0.8rem;"><i class="ph ph-export"></i> Exportar CSV</button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Tarjetas de Totales -->
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
-                <div class="admin-card" style="margin-bottom: 0; padding: 1.5rem;">
-                    <span style="color: var(--color-text-secondary); font-size: 0.85rem; text-transform: uppercase;">Total Ingresos</span>
-                    <h2 id="tot-ingresos" style="font-size: 2rem; color: #28a745; margin-top: 0.5rem;">$0.00</h2>
-                </div>
-                <div class="admin-card" style="margin-bottom: 0; padding: 1.5rem;">
-                    <span style="color: var(--color-text-secondary); font-size: 0.85rem; text-transform: uppercase;">Total Gastos</span>
-                    <h2 id="tot-gastos" style="font-size: 2rem; color: #dc3545; margin-top: 0.5rem;">$0.00</h2>
-                </div>
-                <div class="admin-card" style="margin-bottom: 0; padding: 1.5rem;">
-                    <span style="color: var(--color-text-secondary); font-size: 0.85rem; text-transform: uppercase;">Utilidad Neta</span>
-                    <h2 id="tot-utilidad" style="font-size: 2rem; color: var(--color-accent); margin-top: 0.5rem;">$0.00</h2>
-                </div>
-            </div>
-
-            <!-- Gráfico Financiero -->
+            <!-- Periodo y acciones -->
             <div class="admin-card">
-                <h3 style="margin-bottom: 1.5rem;">Evolución de Ingresos y Gastos</h3>
-                <div style="height: 350px;"><canvas id="chartContabilidad"></canvas></div>
+                <div class="ctb-barra">
+                    <div class="ctb-periodos">
+                        <button type="button" class="btn-outline" data-periodo="dia">Día</button>
+                        <button type="button" class="btn-outline" data-periodo="mes">Mes</button>
+                        <button type="button" class="btn-outline" data-periodo="anio">Año</button>
+                    </div>
+                    <div>
+                        <input type="date" id="ctb-fecha" class="form-control" style="width:auto;">
+                        <input type="month" id="ctb-mes" class="form-control" style="width:auto;">
+                        <input type="number" id="ctb-anio" class="form-control" min="2000" max="2100" step="1" style="width:110px;">
+                    </div>
+                    <div class="ctb-acciones">
+                        <button type="button" class="btn-outline" id="btn-cierre" style="padding:.5rem 1rem;font-size:.75rem;"><i class="ph ph-receipt"></i> Cierre de caja</button>
+                        <button type="button" class="btn-outline" id="btn-exportar" style="padding:.5rem 1rem;font-size:.75rem;"><i class="ph ph-download-simple"></i> Exportar CSV</button>
+                        <button type="button" class="btn-gold" id="btn-nuevo-ingreso" style="padding:.5rem 1rem;font-size:.75rem;"><i class="ph ph-plus"></i> Ingreso</button>
+                        <button type="button" class="btn-gold" id="btn-nuevo-gasto" style="padding:.5rem 1rem;font-size:.75rem;"><i class="ph ph-minus"></i> Gasto</button>
+                    </div>
+                </div>
+                <p id="ctb-periodo-texto" style="margin:.75rem 0 0;font-size:.8rem;opacity:.65;"></p>
+            </div>
+
+            <!-- Resumen -->
+            <div class="ctb-resumen">
+                <div class="admin-card ctb-tarjeta">
+                    <span class="ctb-etq">Ingresos</span>
+                    <strong id="ctb-ingresos" style="color:#2fb36b;">$0.00</strong>
+                    <small id="ctb-ingresos-n"></small>
+                </div>
+                <div class="admin-card ctb-tarjeta">
+                    <span class="ctb-etq">Gastos</span>
+                    <strong id="ctb-gastos" style="color:#e5484d;">$0.00</strong>
+                    <small id="ctb-gastos-n"></small>
+                </div>
+                <div class="admin-card ctb-tarjeta">
+                    <span class="ctb-etq">Ganancia neta</span>
+                    <strong id="ctb-neto">$0.00</strong>
+                    <small id="ctb-margen"></small>
+                </div>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="ctb-graficos">
+                <div class="admin-card">
+                    <div class="admin-card-header"><h3>Ingresos vs Gastos</h3></div>
+                    <div style="position:relative;height:280px;"><canvas id="ctb-chart-barras"></canvas></div>
+                </div>
+                <div class="admin-card">
+                    <div class="admin-card-header"><h3>Ganancia neta</h3></div>
+                    <div style="position:relative;height:280px;"><canvas id="ctb-chart-linea"></canvas></div>
+                </div>
             </div>
 
             <!-- Desgloses -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-                <div class="admin-card" style="margin-bottom: 0;">
-                    <h3 style="margin-bottom: 1rem;">Ingresos por Método de Pago</h3>
+            <div class="ctb-graficos">
+                <div class="admin-card">
+                    <div class="admin-card-header"><h3>Ingresos por servicio</h3></div>
                     <div class="table-responsive">
                         <table class="admin-table">
-                            <thead><tr><th>Método</th><th>Transacciones</th><th>Total</th></tr></thead>
-                            <tbody id="tabla-metodos"><!-- JS --></tbody>
+                            <thead><tr><th>Servicio</th><th>Cant.</th><th>Total</th><th>%</th></tr></thead>
+                            <tbody id="ctb-por-servicio"></tbody>
                         </table>
                     </div>
                 </div>
-                <div class="admin-card" style="margin-bottom: 0;">
-                    <h3 style="margin-bottom: 1rem;">Ingresos por Servicio</h3>
+                <div class="admin-card">
+                    <div class="admin-card-header"><h3>Ingresos por método de pago</h3></div>
                     <div class="table-responsive">
                         <table class="admin-table">
-                            <thead><tr><th>Servicio</th><th>Citas</th><th>Total</th></tr></thead>
-                            <tbody id="tabla-servicios"><!-- JS --></tbody>
+                            <thead><tr><th>Método</th><th>Cant.</th><th>Total</th><th>%</th></tr></thead>
+                            <tbody id="ctb-por-metodo"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            <div class="admin-card">
+                <div class="admin-card-header"><h3>Ventas y comisiones por especialista</h3></div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr><th>Especialista</th><th>Servicios</th><th>Facturado</th><th>Comisión %</th><th>Comisión a pagar</th></tr></thead>
+                        <tbody id="ctb-por-peluquero"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Movimientos -->
+            <div class="admin-card">
+                <div class="admin-card-header"><h3>Ingresos del periodo</h3></div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr><th>Fecha</th><th>Concepto</th><th>Método</th><th>Origen</th><th style="text-align:right;">Monto</th><th style="text-align:right;">Acciones</th></tr></thead>
+                        <tbody id="ctb-ingresos-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-card-header"><h3>Gastos del periodo</h3></div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead><tr><th>Fecha</th><th>Categoría</th><th>Concepto</th><th>Nota</th><th style="text-align:right;">Monto</th><th style="text-align:right;">Acciones</th></tr></thead>
+                        <tbody id="ctb-gastos-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </main>
 
-    <!-- Modal Registrar Gasto -->
-    <div id="modal-gasto" class="modal-overlay">
-        <div class="modal-container" style="max-width: 450px;">
+    <!-- Modal Ingreso manual -->
+    <div id="modal-ingreso" class="modal-overlay">
+        <div class="modal-container" style="max-width:500px;">
             <div class="modal-header">
-                <h3>Registrar Gasto Operativo</h3>
-                <button class="modal-close" onclick="window.cerrarModalGasto()">&times;</button>
+                <h3 id="modal-ingreso-titulo">Nuevo ingreso</h3>
+                <button class="modal-close" onclick="window.cerrarModalIngreso()">&times;</button>
             </div>
-            <form id="form-gasto">
-                <div class="form-group">
-                    <label>Categoría del Gasto *</label>
-                    <input type="text" id="gasto-cat" class="form-control" required placeholder="Ej. Insumos, Arriendo, Marketing">
-                </div>
+            <form id="form-ingreso">
+                <input type="hidden" id="ing-id">
                 <div class="form-group">
                     <label>Concepto *</label>
-                    <input type="text" id="gasto-concepto" class="form-control" required placeholder="Ej. Compra de tintes y oxidantes">
+                    <input type="text" id="ing-concepto" class="form-control" required placeholder="Ej. Venta de shampoo">
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
                     <div class="form-group">
-                        <label>Monto ($) *</label>
-                        <input type="number" step="0.01" id="gasto-monto" class="form-control" required>
+                        <label>Monto (USD) *</label>
+                        <input type="number" step="0.01" min="0.01" id="ing-monto" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Fecha *</label>
-                        <input type="date" id="gasto-fecha" class="form-control" required>
+                        <input type="date" id="ing-fecha" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Nota u Observación</label>
-                    <textarea id="gasto-nota" class="form-control" rows="2"></textarea>
+                    <label>Método de pago</label>
+                    <select id="ing-metodo" class="form-control">
+                        <option value="efectivo">Efectivo</option>
+                        <option value="tarjeta">Tarjeta</option>
+                        <option value="transferencia">Transferencia</option>
+                    </select>
                 </div>
-                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
-                    <button type="button" class="btn-outline" onclick="window.cerrarModalGasto()">Cancelar</button>
-                    <button type="submit" class="btn-gold">Guardar Gasto</button>
+                <div style="display:flex;justify-content:flex-end;gap:1rem;margin-top:1.5rem;">
+                    <button type="button" class="btn-outline" onclick="window.cerrarModalIngreso()">Cancelar</button>
+                    <button type="submit" class="btn-gold">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script type="module">
-        import { checkAdminAuth } from '../js/auth.js';
-        import { supabase } from '../js/supabaseClient.js';
+    <!-- Modal Gasto -->
+    <div id="modal-gasto" class="modal-overlay">
+        <div class="modal-container" style="max-width:520px;">
+            <div class="modal-header">
+                <h3 id="modal-gasto-titulo">Nuevo gasto</h3>
+                <button class="modal-close" onclick="window.cerrarModalGasto()">&times;</button>
+            </div>
+            <form id="form-gasto">
+                <input type="hidden" id="gas-id">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                    <div class="form-group">
+                        <label>Categoría *</label>
+                        <input type="text" id="gas-categoria" class="form-control" list="gas-categorias" required placeholder="Ej. Alquiler">
+                        <datalist id="gas-categorias">
+                            <option value="Alquiler"><option value="Productos"><option value="Servicios básicos">
+                            <option value="Sueldos"><option value="Marketing"><option value="Mantenimiento"><option value="Otros">
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha *</label>
+                        <input type="date" id="gas-fecha" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Concepto *</label>
+                    <input type="text" id="gas-concepto" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Monto (USD) *</label>
+                    <input type="number" step="0.01" min="0.01" id="gas-monto" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Nota</label>
+                    <textarea id="gas-nota" class="form-control" rows="2"></textarea>
+                </div>
+                <div style="display:flex;justify-content:flex-end;gap:1rem;margin-top:1.5rem;">
+                    <button type="button" class="btn-outline" onclick="window.cerrarModalGasto()">Cancelar</button>
+                    <button type="submit" class="btn-gold">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        let chartInstance = null;
-        let datosGlobalesCSV = [];
+    <!-- Modal Cierre de caja -->
+    <div id="modal-cierre" class="modal-overlay">
+        <div class="modal-container" style="max-width:560px;">
+            <div class="modal-header">
+                <h3>Cierre de caja</h3>
+                <button class="modal-close" onclick="window.cerrarModalCierre()">&times;</button>
+            </div>
+            <div class="form-group" style="max-width:220px;">
+                <label>Fecha del cierre</label>
+                <input type="date" id="cierre-fecha" class="form-control">
+            </div>
+            <div id="cierre-contenido"></div>
+            <div style="display:flex;justify-content:flex-end;gap:1rem;margin-top:1.5rem;">
+                <button type="button" class="btn-outline" onclick="window.cerrarModalCierre()">Cerrar</button>
+                <button type="button" class="btn-gold" id="btn-imprimir-cierre"><i class="ph ph-printer"></i> Imprimir</button>
+            </div>
+        </div>
+    </div>
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const user = await checkAdminAuth();
-            if (!user) return;
-
-            const hoy = new Date().toISOString().split('T')[0];
-            const inicioMes = new Date(new Date().setDate(1)).toISOString().split('T')[0];
-
-            document.getElementById('filtro-inicio').value = inicioMes;
-            document.getElementById('filtro-fin').value = hoy;
-            document.getElementById('gasto-fecha').value = hoy;
-
-            await cargarContabilidad();
-
-            document.getElementById('btn-filtrar').onclick = cargarContabilidad;
-
-            document.getElementById('form-gasto').onsubmit = async (e) => {
-                e.preventDefault();
-                const categoria = document.getElementById('gasto-cat').value;
-                const concepto = document.getElementById('gasto-concepto').value;
-                const monto = parseFloat(document.getElementById('gasto-monto').value);
-                const fecha = document.getElementById('gasto-fecha').value;
-                const nota = document.getElementById('gasto-nota').value;
-
-                const { error } = await supabase.from('gastos').insert([{ categoria, concepto, monto, fecha, nota }]);
-                if (error) { alert('Error: ' + error.message); return; }
-
-                window.cerrarModalGasto();
-                await cargarContabilidad();
-            };
-        });
-
-        async function cargarContabilidad() {
-            const agrupacion = document.getElementById('filtro-agrupacion').value;
-            const inicio = document.getElementById('filtro-inicio').value;
-            const fin = document.getElementById('filtro-fin').value;
-
-            const [periodoRes, metodosRes, serviciosRes] = await Promise.all([
-                supabase.rpc('reporte_financiero_periodo', { p_agrupacion: agrupacion, p_fecha_inicio: inicio, p_fecha_fin: fin }),
-                supabase.rpc('reporte_ingresos_metodo_pago', { p_fecha_inicio: inicio, p_fecha_fin: fin }),
-                supabase.rpc('reporte_ingresos_servicio', { p_fecha_inicio: inicio, p_fecha_fin: fin })
-            ]);
-
-            const datosPeriodo = periodoRes.data || [];
-            datosGlobalesCSV = datosPeriodo;
-
-            let totalIng = 0, totalGas = 0;
-            datosPeriodo.forEach(d => {
-                totalIng += Number(d.total_ingresos);
-                totalGas += Number(d.total_gastos);
-            });
-
-            document.getElementById('tot-ingresos').textContent = `$${totalIng.toFixed(2)}`;
-            document.getElementById('tot-gastos').textContent = `$${totalGas.toFixed(2)}`;
-            document.getElementById('tot-utilidad').textContent = `$${(totalIng - totalGas).toFixed(2)}`;
-
-            // Renderizar tablas desglosadas
-            document.getElementById('tabla-metodos').innerHTML = (metodosRes.data || []).map(m => `
-                <tr><td>${m.metodo_pago}</td><td>${m.transacciones}</td><td>$${Number(m.total_ingresos).toFixed(2)}</td></tr>
-            `).join('');
-
-            document.getElementById('tabla-servicios').innerHTML = (serviciosRes.data || []).map(s => `
-                <tr><td>${s.servicio_nombre}</td><td>${s.cantidad_citas}</td><td>$${Number(s.total_ingresos).toFixed(2)}</td></tr>
-            `).join('');
-
-            // Gráfico
-            const ctx = document.getElementById('chartContabilidad').getContext('2d');
-            if (chartInstance) chartInstance.destroy();
-
-            chartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: datosPeriodo.map(d => d.periodo),
-                    datasets: [
-                        { label: 'Ingresos', data: datosPeriodo.map(d => d.total_ingresos), backgroundColor: '#28a745' },
-                        { label: 'Gastos', data: datosPeriodo.map(d => d.total_gastos), backgroundColor: '#dc3545' }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#f5f5f7' } } },
-                    scales: {
-                        x: { ticks: { color: '#a1a1a6' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                        y: { ticks: { color: '#a1a1a6' }, grid: { color: 'rgba(255,255,255,0.05)' } }
-                    }
-                }
-            });
-        }
-
-        window.abrirModalGasto = () => document.getElementById('modal-gasto').classList.add('active');
-        window.cerrarModalGasto = () => document.getElementById('modal-gasto').classList.remove('active');
-
-        window.exportarCSV = () => {
-            if (datosGlobalesCSV.length === 0) { alert('No hay datos para exportar.'); return; }
-            let csv = 'Periodo,Ingresos,Gastos,Utilidad Neta\n';
-            datosGlobalesCSV.forEach(d => {
-                csv += `${d.periodo},${d.total_ingresos},${d.total_gastos},${d.utilidad_neta}\n`;
-            });
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.setAttribute('href', url);
-            a.setAttribute('download', `reporte_financiero_${Date.now()}.csv`);
-            a.click();
-        };
-    </script>
+    <script type="module" src="../js/admin/contabilidad.js"></script>
 </body>
 </html>

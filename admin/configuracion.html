@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuración del Negocio · Admin Maison Aurum</title>
-    
+    <title>Configuración · Admin Maison Aurum</title>
+
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/admin.css">
@@ -12,116 +12,89 @@
 </head>
 <body class="admin-body">
 
-    <aside class="admin-sidebar">
-        <div class="admin-sidebar-brand">MAISON <span>AURUM</span></div>
-        <nav class="admin-nav">
-            <a href="dashboard.html" class="admin-nav-item"><i class="ph ph-squares-four"></i> Dashboard</a>
-            <a href="servicios.html" class="admin-nav-item"><i class="ph ph-scissors"></i> Servicios</a>
-            <a href="equipo.html" class="admin-nav-item"><i class="ph ph-users"></i> Equipo</a>
-            <a href="citas.html" class="admin-nav-item"><i class="ph ph-calendar-check"></i> Citas</a>
-            <a href="contabilidad.html" class="admin-nav-item"><i class="ph ph-chart-line-up"></i> Contabilidad</a>
-            <a href="clientes.html" class="admin-nav-item"><i class="ph ph-address-book"></i> Clientes</a>
-            <a href="configuracion.html" class="admin-nav-item active"><i class="ph ph-gear"></i> Configuración</a>
-        </nav>
-        <div class="admin-sidebar-footer">
-            <button id="btn-logout" class="btn-outline" style="width: 100%; font-size: 0.8rem; padding: 0.6rem;"><i class="ph ph-sign-out"></i> Cerrar Sesión</button>
-        </div>
-    </aside>
+    <!-- Sidebar dinámico inyectado por renderSidebar('configuracion') -->
+    <aside class="admin-sidebar"></aside>
 
     <main class="admin-main">
         <header class="admin-header">
-            <div class="admin-header-title"><h1>Configuración del Salón</h1></div>
-            <div class="admin-user-info"><span id="admin-user-name">Cargando...</span></div>
+            <div class="admin-header-title">
+                <h1>Configuración</h1>
+            </div>
+            <div class="admin-user-info">
+                <span id="admin-user-name">Cargando...</span>
+            </div>
         </header>
 
         <div class="admin-content">
-            <div class="admin-card" style="max-width: 800px;">
+
+            <!-- Datos del negocio -->
+            <div class="admin-card">
                 <div class="admin-card-header">
-                    <h3>Parámetros Generales y Textos Públicos</h3>
+                    <h3>Datos del negocio</h3>
                 </div>
+                <p style="margin:0 0 1.25rem;font-size:.85rem;opacity:.7;">
+                    Estos son los ajustes guardados en la base de datos. El sitio público muestra los que su código lee por nombre de clave.
+                </p>
                 <form id="form-config">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                        <div class="form-group">
-                            <label>Nombre del Salón</label>
-                            <input type="text" id="cfg-nombre_salon" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Eslogan</label>
-                            <input type="text" id="cfg-eslogan" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Descripción Corta (SEO / Hero)</label>
-                        <textarea id="cfg-descripcion_corta" class="form-control" rows="2"></textarea>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                        <div class="form-group">
-                            <label>Teléfono de Contacto</label>
-                            <input type="text" id="cfg-telefono" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Número WhatsApp (sin símbolo +)</label>
-                            <input type="text" id="cfg-whatsapp" class="form-control">
-                        </div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                        <div class="form-group">
-                            <label>Correo Electrónico</label>
-                            <input type="email" id="cfg-email" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Ciudad y País</label>
-                            <input type="text" id="cfg-ciudad" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Dirección Física</label>
-                        <input type="text" id="cfg-direccion" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Texto de Horarios</label>
-                        <input type="text" id="cfg-horario_texto" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Política de Cancelación</label>
-                        <textarea id="cfg-politica_cancelacion" class="form-control" rows="2"></textarea>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
-                        <button type="submit" class="btn-gold">Guardar Configuración</button>
+                    <div id="config-lista"></div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:1.5rem;">
+                        <button type="submit" class="btn-gold" id="btn-guardar-config">Guardar cambios</button>
                     </div>
                 </form>
             </div>
+
+            <!-- Nuevo ajuste -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Agregar un ajuste</h3>
+                </div>
+                <form id="form-ajuste">
+                    <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:1rem;align-items:end;">
+                        <div class="form-group" style="margin:0;">
+                            <label>Clave</label>
+                            <input type="text" id="aj-clave" class="form-control" list="aj-sugeridas" placeholder="ej. whatsapp" required>
+                            <datalist id="aj-sugeridas">
+                                <option value="nombre_negocio"><option value="eslogan"><option value="telefono">
+                                <option value="whatsapp"><option value="instagram"><option value="direccion">
+                                <option value="horario_semana"><option value="horario_fin_semana">
+                            </datalist>
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label>Valor</label>
+                            <input type="text" id="aj-valor" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn-gold" style="padding:.7rem 1.2rem;">Agregar</button>
+                    </div>
+                    <p style="margin:.75rem 0 0;font-size:.78rem;opacity:.6;">
+                        La clave solo admite minúsculas, números y guion bajo. Un ajuste nuevo aparece en el sitio público únicamente si su código lo lee.
+                    </p>
+                </form>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Cambiar contraseña del administrador</h3>
+                </div>
+                <form id="form-password">
+                    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end;">
+                        <div class="form-group" style="margin:0;">
+                            <label>Nueva contraseña</label>
+                            <input type="password" id="pw-nueva" class="form-control" minlength="8" autocomplete="new-password" required>
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label>Repite la contraseña</label>
+                            <input type="password" id="pw-confirmar" class="form-control" minlength="8" autocomplete="new-password" required>
+                        </div>
+                        <button type="submit" class="btn-gold" style="padding:.7rem 1.2rem;">Actualizar</button>
+                    </div>
+                    <p style="margin:.75rem 0 0;font-size:.78rem;opacity:.6;">Mínimo 8 caracteres. Usa una contraseña que solo conozca el dueño del negocio.</p>
+                </form>
+            </div>
+
         </div>
     </main>
 
-    <script type="module">
-        import { checkAdminAuth } from '../js/auth.js';
-        import { supabase } from '../js/supabaseClient.js';
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            const user = await checkAdminAuth();
-            if (!user) return;
-
-            const { data, error } = await supabase.from('configuracion').select('*');
-            if (error) { console.error(error); return; }
-
-            data.forEach(item => {
-                const input = document.getElementById(`cfg-${item.clave}`);
-                if (input) input.value = item.valor;
-            });
-
-            document.getElementById('form-config').onsubmit = async (e) => {
-                e.preventDefault();
-                const claves = ['nombre_salon', 'eslogan', 'descripcion_corta', 'telefono', 'whatsapp', 'email', 'ciudad', 'direccion', 'horario_texto', 'politica_cancelacion'];
-                
-                for (let clave of claves) {
-                    const valor = document.getElementById(`cfg-${clave}`).value;
-                    await supabase.from('configuracion').upsert({ clave, valor });
-                }
-
-                alert('Configuración actualizada con éxito.');
-            };
-        });
-    </script>
+    <script type="module" src="../js/admin/configuracion.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 // ============================================================================
 // PROTECCIÓN DE RUTAS ADMINISTRATIVAS Y GESTIÓN DE SESIÓN
 // ============================================================================
-import { supabase } from '../supabaseClient.js';
+import { supabase } from './supabaseClient.js';
 
 export async function checkAdminAuth() {
     const { data: { session }, error } = await supabase.auth.getSession();

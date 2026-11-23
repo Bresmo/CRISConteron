@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda de Citas · Admin Maison Aurum</title>
-    
+
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/admin.css">
@@ -12,244 +12,206 @@
 </head>
 <body class="admin-body">
 
-    <aside class="admin-sidebar">
-        <div class="admin-sidebar-brand">MAISON <span>AURUM</span></div>
-        <nav class="admin-nav">
-            <a href="dashboard.html" class="admin-nav-item"><i class="ph ph-squares-four"></i> Dashboard</a>
-            <a href="servicios.html" class="admin-nav-item"><i class="ph ph-scissors"></i> Servicios</a>
-            <a href="equipo.html" class="admin-nav-item"><i class="ph ph-users"></i> Equipo</a>
-            <a href="citas.html" class="admin-nav-item active"><i class="ph ph-calendar-check"></i> Citas</a>
-            <a href="contabilidad.html" class="admin-nav-item"><i class="ph ph-chart-line-up"></i> Contabilidad</a>
-            <a href="clientes.html" class="admin-nav-item"><i class="ph ph-address-book"></i> Clientes</a>
-            <a href="configuracion.html" class="admin-nav-item"><i class="ph ph-gear"></i> Configuración</a>
-        </nav>
-        <div class="admin-sidebar-footer">
-            <button id="btn-logout" class="btn-outline" style="width: 100%; font-size: 0.8rem; padding: 0.6rem;"><i class="ph ph-sign-out"></i> Cerrar Sesión</button>
-        </div>
-    </aside>
+    <!-- Sidebar dinámico inyectado por renderSidebar('citas') -->
+    <aside class="admin-sidebar"></aside>
 
     <main class="admin-main">
         <header class="admin-header">
-            <div class="admin-header-title"><h1>Gestión y Agenda de Citas</h1></div>
-            <div class="admin-user-info"><span id="admin-user-name">Cargando...</span></div>
+            <div class="admin-header-title">
+                <h1>Agenda de Citas</h1>
+            </div>
+            <div class="admin-user-info">
+                <span id="admin-user-name">Cargando...</span>
+            </div>
         </header>
 
         <div class="admin-content">
+
+            <!-- Pendientes por confirmar -->
             <div class="admin-card">
                 <div class="admin-card-header">
-                    <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                        <input type="date" id="filtro-fecha" class="form-control" style="width: auto;">
-                        <select id="filtro-estado" class="form-control" style="width: auto;">
-                            <option value="">Todos los Estados</option>
-                            <option value="pendiente">Pendiente</option>
-                            <option value="confirmada">Confirmada</option>
-                            <option value="completada">Completada</option>
-                            <option value="cancelada">Cancelada</option>
-                        </select>
-                    </div>
-                    <button class="btn-gold" id="btn-nueva-cita" style="padding: 0.5rem 1rem; font-size: 0.75rem;"><i class="ph ph-plus"></i> Nueva Cita</button>
+                    <h3>Pendientes por confirmar <span id="pendientes-contador" style="opacity:.6;font-size:.85rem;"></span></h3>
                 </div>
-                <div class="table-responsive">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Fecha y Hora</th>
-                                <th>Cliente</th>
-                                <th>Servicio</th>
-                                <th>Especialista</th>
-                                <th>Estado</th>
-                                <th>Pago</th>
-                                <th style="text-align: right;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="citas-tbody">
-                            <!-- JS -->
-                        </tbody>
-                    </table>
+                <div id="pendientes-lista" class="cal-lista">
+                    <!-- JS -->
                 </div>
             </div>
+
+            <!-- Calendario -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Calendario</h3>
+                    <button class="btn-gold" id="btn-nueva-cita" style="padding: 0.5rem 1rem; font-size: 0.75rem;"><i class="ph ph-plus"></i> Nueva Cita</button>
+                </div>
+
+                <div class="cal-toolbar">
+                    <div class="cal-nav">
+                        <button type="button" class="btn-outline" id="cal-prev" title="Anterior" style="padding:.4rem .7rem;"><i class="ph ph-caret-left"></i></button>
+                        <button type="button" class="btn-outline" id="cal-hoy" style="padding:.4rem .9rem;font-size:.75rem;">Hoy</button>
+                        <button type="button" class="btn-outline" id="cal-next" title="Siguiente" style="padding:.4rem .7rem;"><i class="ph ph-caret-right"></i></button>
+                        <span class="cal-titulo" id="cal-titulo"></span>
+                    </div>
+                    <div class="cal-vistas">
+                        <button type="button" class="btn-outline" data-vista="dia" style="padding:.4rem .9rem;font-size:.75rem;">Día</button>
+                        <button type="button" class="btn-outline" data-vista="semana" style="padding:.4rem .9rem;font-size:.75rem;">Semana</button>
+                        <button type="button" class="btn-outline" data-vista="mes" style="padding:.4rem .9rem;font-size:.75rem;">Mes</button>
+                    </div>
+                </div>
+
+                <div class="admin-filters">
+                    <select id="filtro-peluquero-cita" class="form-control" style="width: auto;">
+                        <option value="">Todos los especialistas</option>
+                    </select>
+                    <select id="filtro-estado-cita" class="form-control" style="width: auto;">
+                        <option value="">Todos los estados</option>
+                        <option value="pendiente">Pendientes</option>
+                        <option value="confirmada">Confirmadas</option>
+                        <option value="completada">Completadas</option>
+                        <option value="cancelada">Canceladas</option>
+                    </select>
+                    <span id="cal-resumen" style="font-size:.8rem;opacity:.7;align-self:center;"></span>
+                </div>
+
+                <div id="calendario">
+                    <!-- JS -->
+                </div>
+            </div>
+
         </div>
     </main>
 
-    <!-- Modal Cita -->
+    <!-- Modal Cita (crear / editar) -->
     <div id="modal-cita" class="modal-overlay">
-        <div class="modal-container">
+        <div class="modal-container" style="max-width: 720px;">
             <div class="modal-header">
-                <h3 id="modal-cita-titulo">Detalle / Editar Cita</h3>
+                <h3 id="modal-cita-titulo">Nueva Cita</h3>
                 <button class="modal-close" onclick="window.cerrarModalCita()">&times;</button>
             </div>
             <form id="form-cita">
                 <input type="hidden" id="cita-id">
+
+                <!-- Cliente -->
                 <div class="form-group">
-                    <label>Cliente</label>
-                    <input type="text" id="cita-cliente" class="form-control" readonly style="opacity: 0.7;">
+                    <label>Cliente *</label>
+                    <div id="cli-seleccionado" style="display:none;align-items:center;justify-content:space-between;gap:1rem;padding:.6rem .9rem;border:1px solid rgba(212,175,55,.35);border-radius:8px;">
+                        <span id="cli-seleccionado-texto"></span>
+                        <button type="button" class="btn-outline" id="btn-cli-cambiar" style="padding:.25rem .7rem;font-size:.72rem;">Cambiar</button>
+                    </div>
+                    <div id="cli-buscador">
+                        <input type="text" id="cli-buscar" class="form-control" placeholder="Buscar por nombre, teléfono o correo..." autocomplete="off">
+                        <div id="cli-resultados" class="cal-cliente-res"></div>
+                        <button type="button" class="btn-outline" id="btn-cli-nuevo" style="margin-top:.6rem;padding:.3rem .8rem;font-size:.75rem;"><i class="ph ph-plus"></i> Cliente nuevo</button>
+                    </div>
+                    <div id="cli-nuevo-box" style="display:none;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                            <div class="form-group">
+                                <label>Nombre y apellido *</label>
+                                <input type="text" id="cli-nombre" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Teléfono *</label>
+                                <input type="text" id="cli-telefono" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Correo (opcional)</label>
+                            <input type="email" id="cli-email" class="form-control">
+                        </div>
+                        <button type="button" class="btn-outline" id="btn-cli-volver" style="padding:.3rem .8rem;font-size:.75rem;">Buscar cliente existente</button>
+                    </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
                     <div class="form-group">
-                        <label>Servicio</label>
-                        <select id="cita-servicio" class="form-control" required></select>
+                        <label>Servicio *</label>
+                        <select id="cita-servicio" class="form-control"></select>
                     </div>
                     <div class="form-group">
-                        <label>Especialista</label>
-                        <select id="cita-peluquero" class="form-control" required></select>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="form-group">
-                        <label>Fecha</label>
-                        <input type="date" id="cita-fecha" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Hora Inicio</label>
-                        <input type="time" id="cita-hora" class="form-control" required>
+                        <label>Especialista *</label>
+                        <select id="cita-peluquero" class="form-control"></select>
                     </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+                    <div class="form-group">
+                        <label>Fecha *</label>
+                        <input type="date" id="cita-fecha" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Hora de inicio *</label>
+                        <input type="time" id="cita-hora" class="form-control">
+                    </div>
                     <div class="form-group">
                         <label>Estado</label>
                         <select id="cita-estado" class="form-control">
-                            <option value="pendiente">Pendiente</option>
                             <option value="confirmada">Confirmada</option>
-                            <option value="completada">Completada</option>
+                            <option value="pendiente">Pendiente</option>
                             <option value="cancelada">Cancelada</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Método de Pago (al completar)</label>
-                        <select id="cita-metodo-pago" class="form-control">
-                            <option value="efectivo">Efectivo</option>
-                            <option value="tarjeta">Tarjeta</option>
-                            <option value="transferencia">Transferencia</option>
-                            <option value="otro">Otro</option>
-                        </select>
-                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label>Precio Cobrado ($)</label>
-                    <input type="number" step="0.01" id="cita-precio" class="form-control" required>
+                    <label>Horas libres sugeridas <span id="cita-fin" style="opacity:.6;text-transform:none;letter-spacing:0;"></span></label>
+                    <div id="cita-slots" class="cal-chips-horas"></div>
                 </div>
-                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+
+                <div class="form-group" style="max-width:220px;">
+                    <label>Precio (USD)</label>
+                    <input type="number" step="0.01" min="0" id="cita-precio" class="form-control">
+                </div>
+
+                <div style="display:flex;justify-content:flex-end;gap:1rem;margin-top:2rem;">
                     <button type="button" class="btn-outline" onclick="window.cerrarModalCita()">Cancelar</button>
-                    <button type="submit" class="btn-gold">Guardar Cambios</button>
+                    <button type="submit" class="btn-gold">Guardar Cita</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script type="module">
-        import { checkAdminAuth } from '../js/auth.js';
-        import { supabase } from '../js/supabaseClient.js';
+    <!-- Modal Detalle -->
+    <div id="modal-detalle" class="modal-overlay">
+        <div class="modal-container" style="max-width: 560px;">
+            <div class="modal-header">
+                <h3>Detalle de la cita</h3>
+                <button class="modal-close" onclick="window.cerrarModalDetalle()">&times;</button>
+            </div>
+            <div id="detalle-contenido"></div>
+            <div id="detalle-acciones" style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.6rem;margin-top:1.5rem;"></div>
+        </div>
+    </div>
 
-        let citasCache = [];
-        let serviciosCache = [];
-        let peluquerosCache = [];
+    <!-- Modal Completar -->
+    <div id="modal-completar" class="modal-overlay">
+        <div class="modal-container" style="max-width: 460px;">
+            <div class="modal-header">
+                <h3>Completar cita</h3>
+                <button class="modal-close" onclick="window.cerrarModalCompletar()">&times;</button>
+            </div>
+            <form id="form-completar">
+                <input type="hidden" id="comp-id">
+                <p id="comp-resumen" style="opacity:.8;font-size:.9rem;margin-bottom:1rem;"></p>
+                <div class="form-group">
+                    <label>Precio cobrado (USD) *</label>
+                    <input type="number" step="0.01" min="0" id="comp-precio" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Método de pago *</label>
+                    <select id="comp-metodo" class="form-control">
+                        <option value="efectivo">Efectivo</option>
+                        <option value="tarjeta">Tarjeta</option>
+                        <option value="transferencia">Transferencia</option>
+                    </select>
+                </div>
+                <p style="opacity:.6;font-size:.78rem;">Al completar la cita se registra automáticamente el ingreso en la contabilidad.</p>
+                <div style="display:flex;justify-content:flex-end;gap:1rem;margin-top:1.5rem;">
+                    <button type="button" class="btn-outline" onclick="window.cerrarModalCompletar()">Cancelar</button>
+                    <button type="submit" class="btn-gold">Completar y cobrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const user = await checkAdminAuth();
-            if (!user) return;
-
-            const filtroFecha = document.getElementById('filtro-fecha');
-            filtroFecha.value = new Date().toISOString().split('T')[0];
-
-            await cargarCatalogos();
-            await cargarCitas();
-
-            filtroFecha.onchange = cargarCitas;
-            document.getElementById('filtro-estado').onchange = cargarCitas;
-
-            document.getElementById('form-cita').onsubmit = async (e) => {
-                e.preventDefault();
-                const id = document.getElementById('cita-id').value;
-                const servicio_id = document.getElementById('cita-servicio').value;
-                const peluquero_id = document.getElementById('cita-peluquero').value;
-                const fecha = document.getElementById('cita-fecha').value;
-                const hora_inicio = document.getElementById('cita-hora').value;
-                const estado = document.getElementById('cita-estado').value;
-                const metodo_pago = document.getElementById('cita-metodo-pago').value;
-                const precio_cobrado = parseFloat(document.getElementById('cita-precio').value);
-
-                const srv = serviciosCache.find(s => s.id === servicio_id);
-                const [h, m] = hora_inicio.split(':').map(Number);
-                const totalMin = h * 60 + m + (srv ? srv.duracion_min : 60);
-                const hora_fin = `${String(Math.floor(totalMin/60)).padStart(2,'0')}:${String(totalMin%60).padStart(2,'0')}:00`;
-
-                const payload = { servicio_id, peluquero_id, fecha, hora_inicio, hora_fin, estado, metodo_pago, precio_cobrado };
-
-                const { error } = await supabase.from('citas').update(payload).eq('id', id);
-                if (error) { alert('Error al actualizar cita: ' + error.message); return; }
-
-                window.cerrarModalCita();
-                await cargarCitas();
-            };
-        });
-
-        async function cargarCatalogos() {
-            const [srvRes, pelRes] = await Promise.all([
-                supabase.from('servicios').select('*').eq('activo', true),
-                supabase.from('peluqueros').select('*').eq('activo', true)
-            ]);
-            serviciosCache = srvRes.data || [];
-            peluquerosCache = pelRes.data || [];
-
-            document.getElementById('cita-servicio').innerHTML = serviciosCache.map(s => `<option value="${s.id}">${s.nombre} ($${s.precio})</option>`).join('');
-            document.getElementById('cita-peluquero').innerHTML = peluquerosCache.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('');
-        }
-
-        async function cargarCitas() {
-            const fecha = document.getElementById('filtro-fecha').value;
-            const estado = document.getElementById('filtro-estado').value;
-
-            let query = supabase.from('citas').select('*, clientes(nombre, telefono), servicios(nombre, precio), peluqueros(nombre)').order('hora_inicio');
-            if (fecha) query = query.eq('fecha', fecha);
-            if (estado) query = query.eq('estado', estado);
-
-            const { data, error } = await query;
-            if (error) { console.error(error); return; }
-
-            citasCache = data || [];
-            renderCitas(citasCache);
-        }
-
-        function renderCitas(citas) {
-            const tbody = document.getElementById('citas-tbody');
-            if (citas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--color-text-secondary);">No se encontraron citas.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = citas.map(c => `
-                <tr>
-                    <td><strong>${c.fecha}</strong><br><span style="font-size: 0.8rem; color: var(--color-text-secondary);">${c.hora_inicio.slice(0, 5)} - ${c.hora_fin.slice(0, 5)}</span></td>
-                    <td><strong>${c.clientes?.nombre || 'Cliente'}</strong><br><span style="font-size: 0.8rem; color: var(--color-text-secondary);">${c.clientes?.telefono || ''}</span></td>
-                    <td>${c.servicios?.nombre || '-'}<br><strong style="color: var(--color-accent);">$${Number(c.precio_cobrado || c.servicios?.precio || 0).toFixed(2)}</strong></td>
-                    <td>${c.peluqueros?.nombre || '-'}</td>
-                    <td><span class="badge ${c.estado === 'completada' ? 'badge-success' : c.estado === 'confirmada' ? 'badge-info' : c.estado === 'cancelada' ? 'badge-danger' : 'badge-warning'}">${c.estado}</span></td>
-                    <td>${c.metodo_pago || '-'}</td>
-                    <td style="text-align: right;">
-                        <button class="btn-outline" style="padding: 0.3rem 0.75rem; font-size: 0.75rem;" onclick="window.editarCita('${c.id}')">Gestionar</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        window.editarCita = (id) => {
-            const c = citasCache.find(x => x.id === id);
-            if (!c) return;
-
-            document.getElementById('cita-id').value = c.id;
-            document.getElementById('cita-cliente').value = `${c.clientes?.nombre} (${c.clientes?.telefono})`;
-            document.getElementById('cita-servicio').value = c.servicio_id;
-            document.getElementById('cita-peluquero').value = c.peluquero_id;
-            document.getElementById('cita-fecha').value = c.fecha;
-            document.getElementById('cita-hora').value = c.hora_inicio.slice(0, 5);
-            document.getElementById('cita-estado').value = c.estado;
-            document.getElementById('cita-metodo-pago').value = c.metodo_pago || 'efectivo';
-            document.getElementById('cita-precio').value = c.precio_cobrado || c.servicios?.precio || 0;
-
-            document.getElementById('modal-cita').classList.add('active');
-        };
-
-        window.cerrarModalCita = () => document.getElementById('modal-cita').classList.remove('active');
-    </script>
+    <script type="module" src="../js/admin/citas.js"></script>
 </body>
 </html>
