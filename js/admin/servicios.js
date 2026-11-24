@@ -95,7 +95,7 @@ async function cargarDatos() {
         llenarSelectsCategoria();
     } catch (err) {
         console.error('Error al cargar servicios y categorías:', err);
-        $('servicios-tbody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:1.5rem;color:#e5484d;">No se pudo cargar el catálogo. Revisa la consola (F12).</td></tr>';
+        $('servicios-tbody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:1.5rem;color:#363636;font-weight:600;">No se pudo cargar el catálogo. Revisa la consola (F12).</td></tr>';
         throw err;
     }
 }
@@ -144,10 +144,10 @@ function filaServicio(s) {
     const imagen = s[state.colImagen];
     const miniatura = imagen
         ? `<img src="${escapeHTML(imagen)}" alt="" style="width:56px;height:40px;border-radius:6px;object-fit:cover;">`
-        : '<div style="width:56px;height:40px;border-radius:6px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;opacity:.5;"><i class="ph ph-image"></i></div>';
+        : '<div style="width:56px;height:40px;border-radius:6px;background:#878787;border:1px solid #363636;display:flex;align-items:center;justify-content:center;"><i class="ph ph-image"></i></div>';
     const estado = s.activo
-        ? '<span style="color:#2fb36b;font-size:.8rem;">● Visible</span>'
-        : '<span style="color:#888;font-size:.8rem;">● Oculto</span>';
+        ? '<span style="color:#363636;font-size:.8rem;font-weight:600;">● Visible</span>'
+        : '<span style="color:#878787;font-size:.8rem;">● Oculto</span>';
     const descripcion = s.descripcion
         ? `<br><small style="opacity:.6;">${escapeHTML(String(s.descripcion).slice(0, 70))}${String(s.descripcion).length > 70 ? '…' : ''}</small>`
         : '';
@@ -203,8 +203,8 @@ function renderCategorias() {
     tbody.innerHTML = state.categorias.map((c) => {
         const cantidad = state.servicios.filter((s) => s.categoria_id === c.id).length;
         const estado = c.activa
-            ? '<span style="color:#2fb36b;font-size:.8rem;">● Activa</span>'
-            : '<span style="color:#888;font-size:.8rem;">● Inactiva</span>';
+            ? '<span style="color:#363636;font-size:.8rem;font-weight:600;">● Activa</span>'
+            : '<span style="color:#878787;font-size:.8rem;">● Inactiva</span>';
         return `
             <tr>
                 <td>${escapeHTML(c.nombre)}</td>

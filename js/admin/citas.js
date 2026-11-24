@@ -12,10 +12,10 @@ import {
 const $ = (id) => document.getElementById(id);
 
 const ESTADOS = {
-    pendiente: { texto: 'Pendiente', color: '#e0a82e' },
-    confirmada: { texto: 'Confirmada', color: '#3b82f6' },
-    completada: { texto: 'Completada', color: '#2fb36b' },
-    cancelada: { texto: 'Cancelada', color: '#8a8a8a' }
+    pendiente: { texto: 'Pendiente', color: '#878787' },
+    confirmada: { texto: 'Confirmada', color: '#5E5E5E' },
+    completada: { texto: 'Completada', color: '#363636' },
+    cancelada: { texto: 'Cancelada', color: '#878787' }
 };
 const DIAS_CORTOS = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 const PASO_SLOTS = 30; // minutos entre horas sugeridas
@@ -102,23 +102,23 @@ function injectStyles() {
     .cal-nav{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
     .cal-titulo{font-family:var(--font-serif,serif);font-size:1.1rem;min-width:200px;text-transform:capitalize;padding-left:.5rem}
     .cal-vistas{display:flex;gap:.25rem}
-    .cal-vistas button.activa{background:rgba(212,175,55,.18);color:var(--color-accent,#d4af37);border-color:var(--color-accent,#d4af37)}
+    .cal-vistas button.activa{background:rgba(94,94,94,.18);color:#363636;border-color:#363636}
     .cal-semana{display:grid;grid-template-columns:repeat(7,minmax(135px,1fr));gap:.5rem;overflow-x:auto}
     .cal-mes{display:grid;grid-template-columns:repeat(7,minmax(95px,1fr));gap:.4rem;overflow-x:auto}
     .cal-mes-cab{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;opacity:.6;text-align:center;padding:.25rem}
-    .cal-dia{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;min-height:170px;padding:.5rem;display:flex;flex-direction:column;gap:.35rem}
+    .cal-dia{background:#878787;border:1px solid #363636;border-radius:8px;min-height:170px;padding:.5rem;display:flex;flex-direction:column;gap:.35rem}
     .cal-celda{min-height:110px}
-    .cal-dia.hoy{border-color:var(--color-accent,#d4af37)}
+    .cal-dia.hoy{border-color:#363636}
     .cal-dia.fuera{opacity:.4}
     .cal-dia-cab{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;opacity:.85;cursor:pointer;display:flex;justify-content:space-between}
-    .cal-chip{display:block;width:100%;text-align:left;font-size:.74rem;line-height:1.3;padding:.3rem .45rem;border-radius:5px;border:0;border-left:3px solid var(--c,#888);background:rgba(255,255,255,.06);color:#eee;cursor:pointer;font-family:inherit}
-    .cal-chip:hover{background:rgba(255,255,255,.13)}
+    .cal-chip{display:block;width:100%;text-align:left;font-size:.74rem;line-height:1.3;padding:.3rem .45rem;border-radius:5px;border:0;border-left:3px solid var(--c,#878787);background:#D3D3D3;color:#000000;cursor:pointer;font-family:inherit}
+    .cal-chip:hover{background:#5E5E5E;color:#D3D3D3}
     .cal-chip.cancelada{opacity:.55;text-decoration:line-through}
     .cal-mas{font-size:.7rem;opacity:.75;background:none;border:0;color:inherit;cursor:pointer;text-align:left;padding:0 .3rem;font-family:inherit}
     .cal-lista{display:flex;flex-direction:column;gap:.6rem}
-    .cal-item{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;padding:.8rem 1rem;border-radius:8px;background:rgba(255,255,255,.04);border-left:4px solid var(--c,#888)}
+    .cal-item{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;padding:.8rem 1rem;border-radius:8px;background:#878787;border-left:4px solid var(--c,#878787)}
     .cal-item[data-cita]{cursor:pointer}
-    .cal-item[data-cita]:hover{background:rgba(255,255,255,.08)}
+    .cal-item[data-cita]:hover{background:#5E5E5E;color:#D3D3D3}
     .cal-item .hora{min-width:120px;font-weight:600}
     .cal-item .info{flex:1;font-size:.9rem;min-width:180px}
     .cal-item .info small{opacity:.65;display:block}
@@ -126,11 +126,11 @@ function injectStyles() {
     .cal-badge{font-size:.72rem;padding:.15rem .55rem;border-radius:999px;border:1px solid var(--c,#888);color:var(--c,#888);white-space:nowrap}
     .cal-vacio{text-align:center;padding:1.8rem;opacity:.65}
     .cal-chips-horas{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.3rem}
-    .cal-hora-btn{padding:.3rem .7rem;font-size:.78rem;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:none;color:inherit;cursor:pointer;font-family:inherit}
-    .cal-hora-btn:hover,.cal-hora-btn.sel{border-color:var(--color-accent,#d4af37);color:var(--color-accent,#d4af37)}
+    .cal-hora-btn{padding:.3rem .7rem;font-size:.78rem;border-radius:999px;border:1px solid #363636;background:#D3D3D3;color:#000000;cursor:pointer;font-family:inherit}
+    .cal-hora-btn:hover,.cal-hora-btn.sel{border-color:#5E5E5E;color:#5E5E5E}
     .cal-cliente-res{display:flex;flex-direction:column;gap:.25rem;margin-top:.4rem}
-    .cal-cliente-res button{text-align:left;padding:.45rem .7rem;border-radius:6px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:inherit;cursor:pointer;font-family:inherit;font-size:.85rem}
-    .cal-cliente-res button:hover{border-color:var(--color-accent,#d4af37)}
+    .cal-cliente-res button{text-align:left;padding:.45rem .7rem;border-radius:6px;border:1px solid #363636;background:#D3D3D3;color:#000000;cursor:pointer;font-family:inherit;font-size:.85rem}
+    .cal-cliente-res button:hover{border-color:#5E5E5E}
     .cal-detalle dl{display:grid;grid-template-columns:130px 1fr;gap:.6rem 1rem;margin:0}
     .cal-detalle dt{opacity:.6;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;padding-top:.15rem}
     .cal-detalle dd{margin:0}
@@ -247,7 +247,7 @@ async function refrescar() {
         render();
     } catch (err) {
         console.error('Error al cargar las citas:', err);
-        cont.innerHTML = '<div class="cal-vacio" style="color:#e5484d;">No se pudieron cargar las citas. Revisa la consola (F12).</div>';
+        cont.innerHTML = '<div class="cal-vacio" style="color:#363636;font-weight:600;">No se pudieron cargar las citas. Revisa la consola (F12).</div>';
     }
 }
 
@@ -785,7 +785,7 @@ async function actualizarSlots() {
         marcarSlot();
     } catch (err) {
         console.error('Error al calcular las horas libres:', err);
-        cont.innerHTML = '<small style="color:#e5484d;">No se pudieron calcular las horas libres. Puedes escribir la hora manualmente.</small>';
+        cont.innerHTML = '<small style="color:#363636;font-weight:600;">No se pudieron calcular las horas libres. Puedes escribir la hora manualmente.</small>';
     }
 }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Administrativo · MAISON AURUM</title>
+    <title>Acceso Administrativo · Camilo Mideros</title>
     
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/base.css">
@@ -16,7 +16,7 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
-            background: radial-gradient(circle at center, #1c1c1c 0%, #0b0b0b 100%);
+            background: radial-gradient(circle at center, #D3D3D3 0%, #878787 100%);
         }
         .login-card {
             background: var(--color-bg-secondary);
@@ -25,7 +25,36 @@
             padding: 3rem;
             width: 100%;
             max-width: 450px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(54,54,54,0.28);
+        }
+
+        @media (max-width: 1024px) {
+            .login-wrapper {
+                min-height: 100svh;
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .login-wrapper {
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            .login-card {
+                max-width: 100%;
+                margin-top: 1.5rem;
+                padding: 1.25rem;
+                border-radius: var(--radius-md);
+            }
+
+            .login-card h1 {
+                font-size: 1.35rem !important;
+            }
+
+            .login-card .form-group {
+                padding: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -33,14 +62,14 @@
     <div class="login-wrapper">
         <div class="login-card">
             <div style="text-align: center; margin-bottom: 2rem;">
-                <h1 style="font-size: 1.75rem; letter-spacing: 0.1em; margin-bottom: 0.5rem;">MAISON <span>AURUM</span></h1>
+                <h1 style="font-size: 1.75rem; letter-spacing: 0.1em; margin-bottom: 0.5rem;">CAMILO <span>MIDEROS</span></h1>
                 <p style="font-size: 0.85rem; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.2em;">Portal de Administración</p>
             </div>
 
             <form id="login-form">
                 <div class="form-group">
                     <label for="login-email">Correo Electrónico</label>
-                    <input type="email" id="login-email" class="form-control" required placeholder="admin@maisonaurum.com">
+                    <input type="email" id="login-email" class="form-control" required placeholder="admin@camilomideros.com">
                 </div>
                 <div class="form-group">
                     <label for="login-password">Contraseña</label>

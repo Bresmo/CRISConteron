@@ -12,10 +12,10 @@ import {
 const $ = (id) => document.getElementById(id);
 
 const ESTADOS = {
-    pendiente: { texto: 'Pendiente', color: '#e0a82e' },
-    confirmada: { texto: 'Confirmada', color: '#3b82f6' },
-    completada: { texto: 'Completada', color: '#2fb36b' },
-    cancelada: { texto: 'Cancelada', color: '#8a8a8a' }
+    pendiente: { texto: 'Pendiente', color: '#878787' },
+    confirmada: { texto: 'Confirmada', color: '#5E5E5E' },
+    completada: { texto: 'Completada', color: '#363636' },
+    cancelada: { texto: 'Cancelada', color: '#878787' }
 };
 
 const state = {
@@ -62,9 +62,9 @@ function injectStyles() {
     .dash-cols{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:1rem}
     @media (max-width:980px){.dash-cols{grid-template-columns:1fr}}
     .dash-rango{display:flex;gap:.25rem}
-    .dash-rango button.activa{background:rgba(212,175,55,.18);color:var(--color-accent,#d4af37);border-color:var(--color-accent,#d4af37)}
+    .dash-rango button.activa{background:rgba(94,94,94,.18);color:#363636;border-color:#363636}
     .dash-lista{display:flex;flex-direction:column;gap:.5rem;max-height:340px;overflow-y:auto}
-    .dash-item{display:flex;gap:.75rem;align-items:center;padding:.6rem .8rem;border-radius:8px;background:rgba(255,255,255,.04);border-left:3px solid var(--c,#888)}
+    .dash-item{display:flex;gap:.75rem;align-items:center;padding:.6rem .8rem;border-radius:8px;background:#D3D3D3;border:1px solid var(--color-border-subtle);border-left:3px solid var(--c,#878787)}
     .dash-item .h{min-width:48px;font-weight:600;font-size:.9rem}
     .dash-item .i{flex:1;font-size:.85rem;min-width:0}
     .dash-item .i small{display:block;opacity:.65}
@@ -149,7 +149,7 @@ async function cargar() {
         $('dash-citas-detalle').textContent = detalleEstados(citasHoy);
         $('dash-pendientes').textContent = String(pendRes.count || 0);
         $('dash-neto-mes').textContent = formatMoney(neto);
-        $('dash-neto-mes').style.color = neto >= 0 ? '#2fb36b' : '#e5484d';
+        $('dash-neto-mes').style.color = neto >= 0 ? '#363636' : '#878787';
         $('dash-clientes').textContent = String(cliRes.count || 0);
 
         // Destacados del mes
@@ -243,8 +243,8 @@ function dibujarGrafico() {
         console.error('Chart.js no se cargó. Revisa la etiqueta <script> en dashboard.html.');
         return;
     }
-    Chart.defaults.color = '#a0a0a0';
-    Chart.defaults.borderColor = 'rgba(255,255,255,.08)';
+    Chart.defaults.color = '#363636';
+    Chart.defaults.borderColor = 'rgba(54,54,54,.24)';
 
     const hoy = fechaLocal(toISODate());
     const claves = [];
@@ -268,7 +268,7 @@ function dibujarGrafico() {
         type: 'bar',
         data: {
             labels: etiquetas,
-            datasets: [{ label: 'Ingresos', data: datos, backgroundColor: '#d4af37', borderRadius: 4 }]
+            datasets: [{ label: 'Ingresos', data: datos, backgroundColor: '#363636', borderRadius: 4 }]
         },
         options: {
             responsive: true,

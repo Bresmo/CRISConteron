@@ -13,10 +13,10 @@ const $ = (id) => document.getElementById(id);
 const PAGE_SIZE = 25;
 
 const ESTADOS = {
-    pendiente: { texto: 'Pendiente', color: '#e0a82e' },
-    confirmada: { texto: 'Confirmada', color: '#3b82f6' },
-    completada: { texto: 'Completada', color: '#2fb36b' },
-    cancelada: { texto: 'Cancelada', color: '#8a8a8a' }
+    pendiente: { texto: 'Pendiente', color: '#878787' },
+    confirmada: { texto: 'Confirmada', color: '#5E5E5E' },
+    completada: { texto: 'Completada', color: '#363636' },
+    cancelada: { texto: 'Cancelada', color: '#878787' }
 };
 
 const state = {
@@ -109,7 +109,7 @@ async function cargarDatos() {
         }
     } catch (err) {
         console.error('Error al cargar los clientes:', err);
-        $('clientes-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:#e5484d;">No se pudieron cargar los clientes. Revisa la consola (F12).</td></tr>';
+        $('clientes-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:#363636;font-weight:600;">No se pudieron cargar los clientes. Revisa la consola (F12).</td></tr>';
         throw err;
     }
 }
@@ -235,7 +235,7 @@ async function abrirDetalle(id) {
     $('detalle-cliente-resumen').innerHTML = `
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.75rem;margin-bottom:1rem;">
             ${[['Visitas', s.visitas], ['Gasto total', formatMoney(s.gasto)], ['Ticket promedio', formatMoney(ticket)], ['Última visita', s.ultima ? formatDate(s.ultima) : '—']]
-                .map(([k, v]) => `<div style="padding:.7rem .9rem;border:1px solid rgba(255,255,255,.08);border-radius:8px;">
+                .map(([k, v]) => `<div style="padding:.7rem .9rem;border:1px solid #878787;border-radius:8px;background:#D3D3D3;">
                     <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;opacity:.6;">${k}</div>
                     <div style="font-size:1.05rem;margin-top:.2rem;">${escapeHTML(v)}</div></div>`).join('')}
         </div>
@@ -272,7 +272,7 @@ async function abrirDetalle(id) {
         }).join('');
     } catch (err) {
         console.error('Error al cargar el historial del cliente:', err);
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1rem;color:#e5484d;">No se pudo cargar el historial.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1rem;color:#363636;font-weight:600;">No se pudo cargar el historial.</td></tr>';
     }
 }
 

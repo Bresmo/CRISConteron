@@ -66,8 +66,8 @@ button, input, select, textarea {
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
-    color: var(--color-bg-primary);
+    background: #363636;
+    color: #D3D3D3;
     font-weight: 600;
     padding: 0.85rem 2rem;
     border-radius: var(--radius-sm);
@@ -79,10 +79,19 @@ button, input, select, textarea {
     box-shadow: 0 4px 20px var(--color-accent-glow);
 }
 
+.nav-menu .btn-gold,
+.nav-menu .btn-gold:hover,
+.nav-menu a.btn-gold,
+.nav-menu a.btn-gold:hover {
+    color: #D3D3D3;
+    background: #363636;
+}
+
 .btn-gold:hover {
-    background: linear-gradient(135deg, var(--color-accent-light), var(--color-accent));
+    background: #5E5E5E;
+    color: #D3D3D3;
     transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 6px 25px rgba(94, 94, 94, 0.3);
 }
 
 .btn-outline {
@@ -105,7 +114,7 @@ button, input, select, textarea {
 
 .btn-outline:hover {
     border-color: var(--color-accent);
-    color: var(--color-accent);
+    color: #5E5E5E;
     background: var(--color-accent-glow);
 }
 

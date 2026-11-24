@@ -93,25 +93,25 @@ function injectStyles() {
     style.id = 'admin-utils-styles';
     style.textContent = `
     #toast-container{position:fixed;top:1rem;right:1rem;z-index:10000;display:flex;flex-direction:column;gap:.5rem;max-width:min(92vw,360px)}
-    .toast{padding:.8rem 1rem;border-radius:8px;font-size:.85rem;color:#fff;background:#1f1f1f;border-left:4px solid #888;box-shadow:0 8px 24px rgba(0,0,0,.5);opacity:0;transform:translateY(-6px);animation:toast-in .25s forwards}
-    .toast-exito{border-left-color:#2fb36b}
-    .toast-error{border-left-color:#e5484d}
-    .toast-info{border-left-color:var(--color-accent,#d4af37)}
+    .toast{padding:.8rem 1rem;border-radius:8px;font-size:.85rem;color:#D3D3D3;background:#363636;border-left:4px solid #878787;box-shadow:0 8px 24px rgba(54,54,54,.25);opacity:0;transform:translateY(-6px);animation:toast-in .25s forwards}
+    .toast-exito{border-left-color:#363636}
+    .toast-error{border-left-color:#878787}
+    .toast-info{border-left-color:#5E5E5E}
     .toast-out{opacity:0!important;transition:opacity .3s}
     @keyframes toast-in{to{opacity:1;transform:none}}
 
-    .cfm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:10001;padding:1rem}
-    .cfm-box{background:#161616;border:1px solid rgba(212,175,55,.25);border-radius:10px;padding:1.5rem;max-width:420px;width:100%}
-    .cfm-msg{margin:0 0 1.25rem;line-height:1.5;color:#ddd;font-size:.95rem}
+    .cfm-overlay{position:fixed;inset:0;background:rgba(54,54,54,.62);display:flex;align-items:center;justify-content:center;z-index:10001;padding:1rem}
+    .cfm-box{background:#D3D3D3;border:1px solid #363636;border-radius:10px;padding:1.5rem;max-width:420px;width:100%;color:#000000}
+    .cfm-msg{margin:0 0 1.25rem;line-height:1.5;color:#363636;font-size:.95rem}
     .cfm-actions{display:flex;justify-content:flex-end;gap:.75rem}
 
-    .sb-brand{padding:1.5rem 1.25rem;font-family:var(--font-serif,'Playfair Display',serif);letter-spacing:.18em;font-weight:700;font-size:1rem;color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
-    .sb-brand span{color:var(--color-accent,#d4af37)}
+    .sb-brand{padding:1.5rem 1.25rem;font-family:var(--font-serif,'Playfair Display',serif);letter-spacing:.18em;font-weight:700;font-size:1rem;color:var(--color-text-primary);border-bottom:1px solid var(--color-border-subtle)}
+    .sb-brand span{color:#363636}
     .sb-nav{display:flex;flex-direction:column;gap:.25rem;padding:1rem .75rem}
-    .sb-link{display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;border-radius:6px;color:var(--color-text-secondary,#a0a0a0);text-decoration:none;font-size:.85rem;background:none;border:0;cursor:pointer;width:100%;text-align:left;font-family:inherit}
-    .sb-link:hover{background:rgba(255,255,255,.05);color:#fff}
-    .sb-link.active{background:rgba(212,175,55,.12);color:var(--color-accent,#d4af37)}
-    .sb-footer{margin-top:auto;padding:1rem .75rem;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:.25rem}
+    .sb-link{display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;border-radius:6px;color:#363636;text-decoration:none;font-size:.85rem;background:none;border:0;cursor:pointer;width:100%;text-align:left;font-family:inherit}
+    .sb-link:hover{background:#5E5E5E;color:#D3D3D3}
+    .sb-link.active{background:rgba(94,94,94,.18);color:#363636}
+    .sb-footer{margin-top:auto;padding:1rem .75rem;border-top:1px solid #878787;display:flex;flex-direction:column;gap:.25rem}
     `;
     document.head.appendChild(style);
 }
@@ -268,7 +268,27 @@ export function renderSidebar(paginaActiva) {
     aside.style.display = 'flex';
     aside.style.flexDirection = 'column';
     aside.innerHTML = `
-        <div class="sb-brand">MAISON <span>AURUM</span></div>
+        <div class="admin-mobile-header">
+            <div class="sb-brand">CAMILO <span>MIDEROS</span></div>
+            <button type="button" class="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+                <span class="admin-menu-lines" aria-hidden="true"><i></i><i></i><i></i></span>
+            </button>
+        </div>
+        <div class="admin-mobile-menu">
+            <nav class="admin-mobile-links">
+                ${items.map((i) => `
+                    <a class="admin-mobile-link ${i.id === paginaActiva ? 'active' : ''}" href="${i.id}.html">
+                        <i class="ph ph-${i.icono}"></i> ${i.texto}
+                    </a>`).join('')}
+                <a class="admin-mobile-link" href="../index.html" target="_blank" rel="noopener">
+                    <i class="ph ph-arrow-square-out"></i> Ver sitio público
+                </a>
+            </nav>
+            <button type="button" class="admin-mobile-logout" id="btn-mobile-logout">
+                <i class="ph ph-sign-out"></i> Cerrar Sesión
+            </button>
+        </div>
+        <div class="sb-brand">CAMILO <span>MIDEROS</span></div>
         <nav class="sb-nav">
             ${items.map((i) => `
                 <a class="sb-link ${i.id === paginaActiva ? 'active' : ''}" href="${i.id}.html">
@@ -283,4 +303,25 @@ export function renderSidebar(paginaActiva) {
                 <i class="ph ph-sign-out"></i> Cerrar sesión
             </button>
         </div>`;
+
+    const toggle = aside.querySelector('.admin-menu-toggle');
+    const menu = aside.querySelector('.admin-mobile-menu');
+    const closeMenu = () => {
+        if (!toggle || !menu) return;
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+    };
+    if (toggle && menu) {
+        toggle.addEventListener('click', () => {
+            const open = menu.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', String(open));
+        });
+        menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+        document.addEventListener('click', (event) => {
+            if (!aside.contains(event.target)) closeMenu();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeMenu();
+        });
+    }
 }

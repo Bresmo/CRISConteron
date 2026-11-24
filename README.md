@@ -1,4 +1,4 @@
-# MAISON AURUM · Haute Coiffure & Ritual Capilar
+# Camilo Mideros · Estética y Belleza
 Plataforma web profesional para salones de belleza y peluquerías de alta gama, desarrollada con un estándar estricto de producción en **HTML5, CSS3, JavaScript Vanilla (ES Modules)** y **Supabase (PostgreSQL + RLS)**.
 
 ---

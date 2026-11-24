@@ -33,13 +33,12 @@ export async function checkAdminAuth() {
     }
 
     // Configurar botón de logout global
-    const logoutBtn = document.getElementById('btn-logout');
-    if (logoutBtn) {
+    document.querySelectorAll('#btn-logout, #btn-mobile-logout').forEach((logoutBtn) => {
         logoutBtn.addEventListener('click', async () => {
             await supabase.auth.signOut();
             window.location.href = 'login.html';
         });
-    }
+    });
 
     return session.user;
 }
