@@ -8,7 +8,7 @@
 -- ============================================================================
 
 INSERT INTO public.configuracion (clave, valor) VALUES
-('nombre_salon', 'Camilo Mideros · Estética y Belleza'),
+('nombre_salon', 'CRIS Conterón · Hair Studio'),
 ('eslogan', 'El arte de la alta peluquería y el ritual capilar contemporáneo.'),
 ('descripcion_corta', 'Un espacio íntimo donde la precisión técnica, la colorimetría de autor y los tratamientos botánicos de lujo convergen para realzar tu identidad.'),
 ('telefono', '+593 99 845 3210'),
@@ -65,7 +65,7 @@ INSERT INTO public.servicios (id, categoria_id, nombre, descripcion, precio, dur
 
 -- Novias & Alta Gala (2)
 ('22222222-2222-2222-2222-222222222214', '11111111-1111-1111-1111-111111111106', 'Recogido Alta Gala & Editorial', 'Diseño escultórico o romántico adaptado al vestuario y joyería para eventos de etiqueta.', 68.00, 75, 'https://images.unsplash.com/photo-1522337094846-8a818192de1f?auto=format&fit=crop&w=900&q=80', 1, TRUE),
-('22222222-2222-2222-2222-222222222215', '11111111-1111-1111-1111-111111111106', 'Pack Novia Camilo Mideros (Prueba + Día B)', 'Incluye sesión de diseño y prueba previa más peinado nupcial el día de la ceremonia con preparación capilar.', 190.00, 120, 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80', 2, TRUE)
+('22222222-2222-2222-2222-222222222215', '11111111-1111-1111-1111-111111111106', 'Pack Novia CRIS Conterón (Prueba + Día B)', 'Incluye sesión de diseño y prueba previa más peinado nupcial el día de la ceremonia con preparación capilar.', 190.00, 120, 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80', 2, TRUE)
 ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================================

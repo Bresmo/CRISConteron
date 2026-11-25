@@ -93,25 +93,25 @@ function injectStyles() {
     style.id = 'admin-utils-styles';
     style.textContent = `
     #toast-container{position:fixed;top:1rem;right:1rem;z-index:10000;display:flex;flex-direction:column;gap:.5rem;max-width:min(92vw,360px)}
-    .toast{padding:.8rem 1rem;border-radius:8px;font-size:.85rem;color:#D3D3D3;background:#363636;border-left:4px solid #878787;box-shadow:0 8px 24px rgba(54,54,54,.25);opacity:0;transform:translateY(-6px);animation:toast-in .25s forwards}
-    .toast-exito{border-left-color:#363636}
-    .toast-error{border-left-color:#878787}
-    .toast-info{border-left-color:#5E5E5E}
+    .toast{padding:.8rem 1rem;border-radius:8px;font-size:.85rem;color:var(--color-text-primary);background:var(--color-bg-card);border-left:4px solid var(--color-accent);box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;transform:translateY(-6px);animation:toast-in .25s forwards}
+    .toast-exito{border-left-color:var(--color-success)}
+    .toast-error{border-left-color:var(--color-error)}
+    .toast-info{border-left-color:var(--color-accent-dark)}
     .toast-out{opacity:0!important;transition:opacity .3s}
     @keyframes toast-in{to{opacity:1;transform:none}}
 
-    .cfm-overlay{position:fixed;inset:0;background:rgba(54,54,54,.62);display:flex;align-items:center;justify-content:center;z-index:10001;padding:1rem}
-    .cfm-box{background:#D3D3D3;border:1px solid #363636;border-radius:10px;padding:1.5rem;max-width:420px;width:100%;color:#000000}
-    .cfm-msg{margin:0 0 1.25rem;line-height:1.5;color:#363636;font-size:.95rem}
+    .cfm-overlay{position:fixed;inset:0;background:var(--color-bg-overlay);display:flex;align-items:center;justify-content:center;z-index:10001;padding:1rem}
+    .cfm-box{background:var(--color-bg-card);border:1px solid var(--color-border);border-radius:10px;padding:1.5rem;max-width:420px;width:100%;color:var(--color-text-primary)}
+    .cfm-msg{margin:0 0 1.25rem;line-height:1.5;color:var(--color-text-secondary);font-size:.95rem}
     .cfm-actions{display:flex;justify-content:flex-end;gap:.75rem}
 
-    .sb-brand{padding:1.5rem 1.25rem;font-family:var(--font-serif,'Playfair Display',serif);letter-spacing:.18em;font-weight:700;font-size:1rem;color:var(--color-text-primary);border-bottom:1px solid var(--color-border-subtle)}
-    .sb-brand span{color:#363636}
+    .sb-brand{padding:1.5rem 1.25rem;font-family:var(--font-brand,'Josefin Sans','Century Gothic',sans-serif);letter-spacing:.05em;font-weight:300;font-size:1.35rem;color:var(--color-text-primary);border-bottom:1px solid var(--color-border-subtle)}
+    .sb-brand span{color:var(--color-accent)}
     .sb-nav{display:flex;flex-direction:column;gap:.25rem;padding:1rem .75rem}
-    .sb-link{display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;border-radius:6px;color:#363636;text-decoration:none;font-size:.85rem;background:none;border:0;cursor:pointer;width:100%;text-align:left;font-family:inherit}
-    .sb-link:hover{background:#5E5E5E;color:#D3D3D3}
-    .sb-link.active{background:rgba(94,94,94,.18);color:#363636}
-    .sb-footer{margin-top:auto;padding:1rem .75rem;border-top:1px solid #878787;display:flex;flex-direction:column;gap:.25rem}
+    .sb-link{display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;border-radius:6px;color:var(--color-text-secondary);text-decoration:none;font-size:.85rem;background:none;border:0;cursor:pointer;width:100%;text-align:left;font-family:inherit}
+    .sb-link:hover{background:var(--color-accent-glow);color:var(--color-accent)}
+    .sb-link.active{background:var(--color-accent-glow);color:var(--color-accent)}
+    .sb-footer{margin-top:auto;padding:1rem .75rem;border-top:1px solid var(--color-border-subtle);display:flex;flex-direction:column;gap:.25rem}
     `;
     document.head.appendChild(style);
 }
@@ -269,7 +269,7 @@ export function renderSidebar(paginaActiva) {
     aside.style.flexDirection = 'column';
     aside.innerHTML = `
         <div class="admin-mobile-header">
-            <div class="sb-brand">CAMILO <span>MIDEROS</span></div>
+            <div class="sb-brand">CRIS <span>Conterón</span></div>
             <button type="button" class="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false">
                 <span class="admin-menu-lines" aria-hidden="true"><i></i><i></i><i></i></span>
             </button>
@@ -288,7 +288,7 @@ export function renderSidebar(paginaActiva) {
                 <i class="ph ph-sign-out"></i> Cerrar Sesión
             </button>
         </div>
-        <div class="sb-brand">CAMILO <span>MIDEROS</span></div>
+        <div class="sb-brand">CRIS <span>Conterón</span></div>
         <nav class="sb-nav">
             ${items.map((i) => `
                 <a class="sb-link ${i.id === paginaActiva ? 'active' : ''}" href="${i.id}.html">

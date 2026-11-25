@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard · Admin Camilo Mideros</title>
+    <link rel="icon" type="image/png" href="../assets/img/cris-conteron-favicon.png">
+    <title>Dashboard · Admin CRIS Conterón</title>
     
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/base.css">
@@ -106,17 +107,17 @@
                     data: {
                         labels: labels,
                         datasets: [
-                            { label: 'Ingresos', data: ingresos, borderColor: '#363636', backgroundColor: 'rgba(54,54,54,0.10)', fill: true, tension: 0.3 },
-                            { label: 'Gastos', data: gastos, borderColor: '#878787', backgroundColor: 'rgba(135,135,135,0.18)', fill: true, tension: 0.3 }
+                            { label: 'Ingresos', data: ingresos, borderColor: '#e8e1d5', backgroundColor: 'rgba(232,225,213,0.12)', fill: true, tension: 0.3 },
+                            { label: 'Gastos', data: gastos, borderColor: '#9c958b', backgroundColor: 'rgba(156,149,139,0.16)', fill: true, tension: 0.3 }
                         ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#000000' } } },
+                        plugins: { legend: { labels: { color: '#f0eadf' } } },
                         scales: {
-                            x: { ticks: { color: '#363636' }, grid: { color: 'rgba(54,54,54,0.12)' } },
-                            y: { ticks: { color: '#363636' }, grid: { color: 'rgba(54,54,54,0.12)' } }
+                            x: { ticks: { color: '#c9c2b7' }, grid: { color: 'rgba(232,225,213,0.1)' } },
+                            y: { ticks: { color: '#c9c2b7' }, grid: { color: 'rgba(232,225,213,0.1)' } }
                         }
                     }
                 });

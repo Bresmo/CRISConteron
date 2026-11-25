@@ -1,37 +1,37 @@
 /* ============================================================================
-   VARIABLES DE DISEÑO - SALÓN BOUTIQUE DE LUJO
+   IDENTIDAD VISUAL - CRIS CONTERÓN
    ============================================================================ */
 :root {
-    /* Paleta principal solicitada */
-    --color-bg-primary: #D3D3D3;
-    --color-bg-secondary: #878787;
-    --color-bg-card: #D3D3D3;
-    --color-bg-overlay: rgba(54, 54, 54, 0.45);
+    --color-bg-primary: #0b0b0c;
+    --color-bg-secondary: #151516;
+    --color-bg-card: #1c1c1e;
+    --color-bg-overlay: rgba(8, 8, 9, 0.76);
 
-    --color-text-primary: #000000;
-    --color-text-secondary: #363636;
-    --color-text-muted: #363636;
+    --color-text-primary: #f0eadf;
+    --color-text-secondary: #c9c2b7;
+    --color-text-muted: #9c958b;
 
-    --color-accent: #363636;
-    --color-accent-light: #5E5E5E;
-    --color-accent-dark: #363636;
-    --color-accent-hover: #5E5E5E;
-    --color-accent-glow: rgba(94, 94, 94, 0.18);
+    --color-accent: #e8e1d5;
+    --color-accent-light: #f5f0e8;
+    --color-accent-dark: #cfc7ba;
+    --color-accent-hover: #d7cfc2;
+    --color-accent-glow: rgba(232, 225, 213, 0.14);
 
-    --color-border: rgba(54, 54, 54, 0.38);
-    --color-border-subtle: rgba(54, 54, 54, 0.24);
+    --color-border: rgba(232, 225, 213, 0.3);
+    --color-border-subtle: rgba(232, 225, 213, 0.14);
 
-    --color-success: #28a745;
-    --color-error: #363636;
+    --color-success: #7da88d;
+    --color-error: #d68178;
 
     /* Tipografías */
     --font-serif: 'Playfair Display', Georgia, serif;
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-brand: 'Josefin Sans', 'Century Gothic', sans-serif;
 
     /* Espaciados y Transiciones */
     --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 16px;
+    --radius-sm: 3px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
     --max-width: 1280px;
 }

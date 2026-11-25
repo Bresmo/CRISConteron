@@ -1,5 +1,5 @@
 /* ============================================================================
-   ESTILOS PANEL DE ADMINISTRACIÓN - CAMILO MIDEROS
+   ESTILOS PANEL DE ADMINISTRACIÓN - CRIS CONTERÓN
    ============================================================================ */
 :root {
     --admin-sidebar-width: 260px;
@@ -31,9 +31,10 @@ body.admin-body {
 
 .admin-sidebar-brand {
     padding: 1.5rem 2rem;
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
-    letter-spacing: 0.1em;
+    font-family: var(--font-brand);
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
     border-bottom: 1px solid var(--color-border-subtle);
 }
 
@@ -1111,4 +1112,236 @@ body.admin-body {
     .dashboard-panels {
         gap: 0.75rem;
     }
+}
+
+/* Identidad CRIS: contraste oscuro, acentos marfil y patrón topográfico. */
+.admin-body {
+    background-color: var(--color-bg-primary);
+    background-image:
+        linear-gradient(rgba(11, 11, 12, 0.62), rgba(11, 11, 12, 0.62)),
+        url('../assets/img/topographic-pattern.png');
+    background-size: auto, 760px auto;
+    background-repeat: no-repeat, repeat;
+    color: var(--color-text-primary);
+}
+
+.admin-sidebar,
+.admin-header {
+    background: rgba(15, 15, 16, 0.96);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-subtle);
+}
+
+.admin-sidebar-brand,
+.admin-header-title h1,
+.admin-user-info {
+    color: var(--color-text-primary);
+}
+
+.admin-sidebar-brand span,
+.sb-brand span {
+    color: var(--color-accent);
+}
+
+.admin-nav-item,
+.sb-link {
+    color: var(--color-text-secondary);
+}
+
+.admin-nav-item:hover,
+.admin-nav-item.active,
+.sb-link:hover,
+.sb-link.active {
+    background: var(--color-accent-glow);
+    color: var(--color-accent);
+    border-left-color: var(--color-accent);
+}
+
+.admin-card,
+.modal-container,
+.admin-body .admin-card,
+.admin-body .modal-container,
+.admin-body .login-card {
+    background: rgba(24, 24, 25, 0.96);
+    border-color: var(--color-border-subtle);
+    color: var(--color-text-primary);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+}
+
+.admin-table th {
+    color: var(--color-text-secondary);
+    background: rgba(232, 225, 213, 0.06);
+}
+
+.admin-table th,
+.admin-table td,
+.modal-header {
+    border-color: var(--color-border-subtle);
+}
+
+.admin-table tbody tr:hover {
+    background: rgba(232, 225, 213, 0.05);
+}
+
+.badge-success,
+.badge-info,
+.badge-warning,
+.badge-danger {
+    background: rgba(232, 225, 213, 0.1);
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+}
+
+.admin-body .form-group,
+.admin-body .admin-field,
+.admin-body .hd-fila,
+.admin-body .admin-filters,
+.login-card .form-group {
+    background: rgba(232, 225, 213, 0.045);
+    border-color: var(--color-border-subtle);
+}
+
+.admin-body .form-group label,
+.admin-body .hd-fila > label,
+.login-card .form-group label {
+    color: var(--color-text-secondary);
+}
+
+.admin-body .form-control,
+.admin-body .admin-search-input,
+.admin-body .hd-tramo,
+.admin-body .hd-ini,
+.admin-body .hd-fin,
+.login-card .form-control {
+    background: #111112;
+    border-color: var(--color-border-subtle);
+    color: var(--color-text-primary);
+}
+
+.admin-body .form-control::placeholder,
+.admin-body .admin-search-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.admin-body .form-control:focus,
+.admin-body .admin-search-input:focus,
+.login-card .form-control:focus {
+    background: #111112;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-glow);
+}
+
+.admin-body .form-control option {
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+}
+
+.admin-toast,
+.toast,
+.toast-exito,
+.toast-error,
+.toast-info {
+    background: #202021;
+    color: var(--color-text-primary);
+    border-left-color: var(--color-accent);
+}
+
+.cfm-box {
+    background: var(--color-bg-card);
+    border-color: var(--color-border);
+    color: var(--color-text-primary);
+}
+
+.cfm-msg {
+    color: var(--color-text-secondary);
+}
+
+.admin-body .btn-outline {
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+}
+
+.admin-body .btn-outline:hover {
+    color: var(--color-bg-primary);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.admin-body .btn-gold {
+    background: var(--color-accent);
+    color: var(--color-bg-primary);
+}
+
+.admin-body .btn-gold:hover {
+    background: var(--color-accent-hover);
+    color: var(--color-bg-primary);
+}
+
+.admin-mobile-header {
+    background: rgba(15, 15, 16, 0.96);
+}
+
+.admin-mobile-header .sb-brand {
+    color: var(--color-text-primary);
+}
+
+.admin-menu-toggle {
+    background: var(--color-bg-card);
+    border-color: var(--color-border-subtle);
+}
+
+.admin-menu-lines i {
+    background: var(--color-accent);
+}
+
+.admin-mobile-menu {
+    background: rgba(21, 21, 22, 0.98);
+    border-color: var(--color-border-subtle);
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.5);
+}
+
+.admin-mobile-link {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-subtle);
+}
+
+.admin-mobile-link.active,
+.admin-mobile-link:hover {
+    color: var(--color-accent);
+}
+
+.admin-mobile-logout {
+    background: var(--color-accent);
+    color: var(--color-bg-primary);
+    border-color: var(--color-accent);
+}
+
+.login-wrapper {
+    background:
+        radial-gradient(circle at center, rgba(38, 38, 39, 0.62), rgba(11, 11, 12, 0.72) 72%),
+        url('../assets/img/topographic-pattern.png') center/760px auto;
+}
+
+.login-card h1 span {
+    color: var(--color-accent);
+}
+
+.login-card h1 {
+    font-family: var(--font-brand);
+    font-weight: 300;
+    letter-spacing: 0.05em !important;
+}
+
+.login-card .btn-gold {
+    background: var(--color-accent);
+    color: var(--color-bg-primary);
+}
+
+.login-card .btn-gold:hover {
+    background: var(--color-accent-hover);
+    color: var(--color-bg-primary);
+}
+
+.table-responsive {
+    border-color: var(--color-border-subtle);
 }

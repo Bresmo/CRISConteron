@@ -75,7 +75,7 @@ function injectStyles() {
     .ctb-barra{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
     .ctb-periodos{display:flex;gap:.25rem}
     .ctb-periodos button{padding:.45rem 1rem;font-size:.78rem}
-    .ctb-periodos button.activa{background:rgba(94,94,94,.18);color:#363636;border-color:#363636}
+    .ctb-periodos button.activa{background:var(--color-accent-glow);color:var(--color-accent);border-color:var(--color-accent)}
     .ctb-acciones{display:flex;gap:.5rem;flex-wrap:wrap}
     .ctb-resumen{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
     .ctb-tarjeta{display:flex;flex-direction:column;gap:.3rem}
@@ -85,7 +85,7 @@ function injectStyles() {
     .ctb-graficos{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1rem}
     .ctb-vacio{text-align:center;padding:1.2rem;opacity:.65}
     .cierre-tabla{width:100%;border-collapse:collapse;margin:.75rem 0}
-    .cierre-tabla td,.cierre-tabla th{padding:.45rem .3rem;border-bottom:1px solid #878787;text-align:left;font-size:.9rem}
+    .cierre-tabla td,.cierre-tabla th{padding:.45rem .3rem;border-bottom:1px solid var(--color-border-subtle);text-align:left;font-size:.9rem}
     .cierre-tabla td:last-child,.cierre-tabla th:last-child{text-align:right}
     .cierre-total td{font-weight:600}
     #print-area{display:none}
@@ -227,7 +227,7 @@ function render() {
     $('ctb-gastos').textContent = formatMoney(totalGas);
     $('ctb-gastos-n').textContent = `${state.gastos.length} movimiento${state.gastos.length === 1 ? '' : 's'}`;
     $('ctb-neto').textContent = formatMoney(neto);
-    $('ctb-neto').style.color = neto >= 0 ? '#363636' : '#878787';
+    $('ctb-neto').style.color = neto >= 0 ? 'var(--color-success)' : 'var(--color-error)';
     $('ctb-margen').textContent = totalIng > 0 ? `Margen: ${((neto / totalIng) * 100).toFixed(1)}%` : '';
 
     // Desgloses
@@ -276,7 +276,7 @@ function renderPeluqueros(mapa) {
         </tr>`;
     }).join('');
     tbody.innerHTML = html + `
-        <tr style="font-weight:600;border-top:1px solid #878787;">
+        <tr style="font-weight:600;border-top:1px solid var(--color-border-subtle);">
             <td>Total</td><td>${totalN}</td><td>${formatMoney(totalFact)}</td><td></td><td>${formatMoney(totalCom)}</td>
         </tr>`;
 }
@@ -297,7 +297,7 @@ function renderIngresos() {
             <td>${escapeHTML(i.concepto || '—')}</td>
             <td>${escapeHTML(capitalizar(i.metodo_pago || '—'))}</td>
             <td>${i.cita_id
-                ? '<span style="font-size:.75rem;color:#363636;font-weight:600;">Cita</span>'
+                ? '<span style="font-size:.75rem;color:var(--color-accent);font-weight:600;">Cita</span>'
                 : '<span style="font-size:.75rem;opacity:.7;">Manual</span>'}</td>
             <td style="text-align:right;">${formatMoney(i.monto)}</td>
             <td><div style="display:flex;justify-content:flex-end;gap:.4rem;">${i.cita_id
@@ -374,8 +374,8 @@ function dibujarGraficos() {
         console.error('Chart.js no se cargó. Revisa la etiqueta <script> en contabilidad.html.');
         return;
     }
-    Chart.defaults.color = '#363636';
-    Chart.defaults.borderColor = 'rgba(54,54,54,.24)';
+    Chart.defaults.color = '#c9c2b7';
+    Chart.defaults.borderColor = 'rgba(232,225,213,.14)';
 
     const s = construirSerie();
     const tooltip = { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatMoney(ctx.parsed.y)}` } };
@@ -391,8 +391,8 @@ function dibujarGraficos() {
         data: {
             labels: s.etiquetas,
             datasets: [
-                { label: 'Ingresos', data: s.ing, backgroundColor: '#363636' },
-                { label: 'Gastos', data: s.gas, backgroundColor: '#878787' }
+                { label: 'Ingresos', data: s.ing, backgroundColor: '#e8e1d5' },
+                { label: 'Gastos', data: s.gas, backgroundColor: '#9c958b' }
             ]
         },
         options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip }, scales: escalaY(true) }
@@ -405,8 +405,8 @@ function dibujarGraficos() {
             datasets: [{
                 label: 'Ganancia neta',
                 data: s.neto,
-                borderColor: '#363636',
-                backgroundColor: 'rgba(54,54,54,.15)',
+                borderColor: '#e8e1d5',
+                backgroundColor: 'rgba(232,225,213,.15)',
                 fill: true,
                 tension: 0.3,
                 pointRadius: 3
@@ -672,7 +672,7 @@ async function renderCierre() {
         cont.innerHTML = html;
     } catch (err) {
         console.error('Error al calcular el cierre de caja:', err);
-        cont.innerHTML = '<div class="ctb-vacio" style="color:#363636;font-weight:600;">No se pudo calcular el cierre. Revisa la consola (F12).</div>';
+        cont.innerHTML = '<div class="ctb-vacio" style="color:var(--color-text-secondary);font-weight:600;">No se pudo calcular el cierre. Revisa la consola (F12).</div>';
     }
 }
 
@@ -685,7 +685,7 @@ function imprimirCierre() {
         document.body.appendChild(area);
     }
     area.innerHTML = `
-        <h2 style="margin:0 0 .25rem;">Camilo Mideros</h2>
+        <h2 style="margin:0 0 .25rem;">CRIS Conterón</h2>
         <h3 style="margin:0 0 1rem;font-weight:400;">Cierre de caja · ${escapeHTML(formatDate(state.cierre.fecha))}</h3>
         ${state.cierre.html}
         <p style="margin-top:3rem;font-size:.85rem;">Firma del responsable: ______________________________</p>`;

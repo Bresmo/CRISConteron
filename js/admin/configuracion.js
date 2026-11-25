@@ -72,7 +72,7 @@ async function cargar() {
         render();
     } catch (err) {
         console.error('Error al cargar la configuración:', err);
-        cont.innerHTML = '<p style="color:#363636;font-weight:600;">No se pudo cargar la configuración. Revisa la consola (F12).</p>';
+        cont.innerHTML = '<p style="color:var(--color-text-secondary);font-weight:600;">No se pudo cargar la configuración. Revisa la consola (F12).</p>';
     }
 }
 

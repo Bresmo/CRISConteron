@@ -125,7 +125,7 @@ async function cargarDatos() {
         select.value = actual;
     } catch (err) {
         console.error('Error al cargar el equipo:', err);
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:#363636;font-weight:600;">No se pudo cargar el equipo. Revisa la consola (F12).</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--color-text-secondary);font-weight:600;">No se pudo cargar el equipo. Revisa la consola (F12).</td></tr>';
         throw err;
     }
 }
@@ -154,10 +154,10 @@ function filaPeluquero(p) {
     const inicial = escapeHTML((p.nombre || '?').trim().charAt(0).toUpperCase());
     const foto = p.foto_url
         ? `<img src="${escapeHTML(p.foto_url)}" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">`
-        : `<div style="width:44px;height:44px;border-radius:50%;background:rgba(94,94,94,.15);color:#363636;display:flex;align-items:center;justify-content:center;font-weight:600;">${inicial}</div>`;
+        : `<div style="width:44px;height:44px;border-radius:50%;background:var(--color-accent-glow);color:var(--color-accent);display:flex;align-items:center;justify-content:center;font-weight:600;">${inicial}</div>`;
     const estado = p.activo
-        ? '<span style="color:#363636;font-size:.8rem;font-weight:600;">● Activo</span>'
-        : '<span style="color:#878787;font-size:.8rem;">● Inactivo</span>';
+        ? '<span style="color:var(--color-success);font-size:.8rem;font-weight:600;">● Activo</span>'
+        : '<span style="color:var(--color-text-muted);font-size:.8rem;">● Inactivo</span>';
 
     return `
         <tr>
@@ -304,7 +304,7 @@ function renderCheckboxesServicios(seleccion) {
         </div>`;
     cont.innerHTML = acciones + [...grupos].map(([categoria, items]) => `
         <div style="margin-bottom:.75rem;">
-            <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:#363636;margin-bottom:.4rem;">${escapeHTML(categoria)}</div>
+            <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--color-text-secondary);margin-bottom:.4rem;">${escapeHTML(categoria)}</div>
             ${items.map((s) => `
                 <label style="display:flex;gap:.5rem;align-items:center;padding:.2rem 0;font-size:.85rem;cursor:pointer;">
                     <input type="checkbox" value="${escapeHTML(s.id)}" ${seleccion.has(s.id) ? 'checked' : ''}>
@@ -519,7 +519,7 @@ async function abrirHorarios(id) {
                 .map((t) => htmlTramo(String(t.hora_inicio).slice(0, 5), String(t.hora_fin).slice(0, 5)))
                 .join('');
             return `
-                <div class="hd-fila" data-dia="${valorDia(d)}" data-nombre="${d.nombre}" style="display:flex;gap:1rem;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid #878787;">
+                <div class="hd-fila" data-dia="${valorDia(d)}" data-nombre="${d.nombre}" style="display:flex;gap:1rem;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--color-border-subtle);">
                     <label style="width:120px;display:flex;gap:.5rem;align-items:center;padding-top:.45rem;cursor:pointer;">
                         <input type="checkbox" class="hd-trabaja" ${trabaja ? 'checked' : ''}> ${d.nombre}
                     </label>
@@ -654,12 +654,12 @@ async function cargarRendimiento() {
                 <td>${formatMoney(f.total)}</td>
                 <td>${formatMoney(f.comision)}</td>
             </tr>`).join('') + `
-            <tr style="font-weight:600;border-top:1px solid #878787;">
+            <tr style="font-weight:600;border-top:1px solid var(--color-border-subtle);">
                 <td>Total</td><td></td><td>${cantGeneral}</td>
                 <td>${formatMoney(totalGeneral)}</td><td>${formatMoney(comisionGeneral)}</td>
             </tr>`;
     } catch (err) {
         console.error('Error al calcular el rendimiento:', err);
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:#363636;font-weight:600;">No se pudo calcular el rendimiento. Revisa la consola (F12).</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--color-text-secondary);font-weight:600;">No se pudo calcular el rendimiento. Revisa la consola (F12).</td></tr>';
     }
 }
